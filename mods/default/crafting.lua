@@ -449,7 +449,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'default:paper',
 	recipe = {
-		{'default:papyrus', 'default:papyrus', 'default:papyrus'},
+		{'default:stick'},
 	}
 })
 
