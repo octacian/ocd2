@@ -1283,7 +1283,7 @@ minetest.register_node("default:grass_4", {
 
 minetest.register_node("default:grass_5", {
 	description = "Grass",
-	damage_per_second = 12,
+	damage_per_second = 2,
 	drawtype = "plantlike",
 	tiles = {"default_grass_5.png"},
 	inventory_image = "default_grass_5.png",
