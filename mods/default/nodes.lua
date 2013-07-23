@@ -340,7 +340,6 @@ minetest.register_node("default:glass", {
 	drawtype = "glasslike",
 	use_texture_alpha = true,
 	tiles = {"default_glass.png"},
-	inventory_image = minetest.inventorycube("default_glass.png"),
 	paramtype = "light",
 	sunlight_propagates = true,
 	groups = {cracky=3,oddly_breakable_by_hand=3},
@@ -1113,7 +1112,7 @@ minetest.register_node("default:obsidian_glass", {
 	drawtype = "glasslike",
 	tiles = {"default_obsidian_glass.png"},
 	paramtype = "light",
-	sunlight_propagates = true,
+	use_texture_alpha = true,
 	sounds = default.node_sound_glass_defaults(),
 	groups = {cracky=3,oddly_breakable_by_hand=3},
 })

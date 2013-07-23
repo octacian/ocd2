@@ -118,6 +118,8 @@ protector.can_dig = function(r,pos,digger,onlyowner,infolevel)
 			if onlyowner or not protector.is_member(meta, digger:get_player_name()) then
 				if infolevel == 1 then
 					minetest.chat_send_player(digger:get_player_name(), "This area is owned by "..owner.." !")
+					local hp = digger:get_hp()-12
+					digger:set_hp(hp)
 				elseif infolevel == 2 then
 					minetest.chat_send_player(digger:get_player_name(),"This area is owned by "..meta:get_string("owner")..".")
 					if meta:get_string("members") ~= "" then
