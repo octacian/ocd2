@@ -50,6 +50,7 @@ minetest.register_node("default:stone_with_copper", {
 minetest.register_node("default:stone_with_mese", {
 	description = "Mese Crystals in Stone",
 	tiles = {"default_stone.png^default_mineral_mese.png"},
+	light_source = 2,
 	is_ground_content = true,
 	groups = {cracky=1},
 	drop = "default:mese_crystal",
@@ -1082,6 +1083,7 @@ minetest.register_node("default:bronzeblock", {
 minetest.register_node("default:mese", {
 	description = "Mese Block",
 	tiles = {"default_mese_block.png"},
+  light_source = 4,
 	is_ground_content = true,
 	groups = {cracky=1,level=2},
 	sounds = default.node_sound_stone_defaults(),
