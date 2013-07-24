@@ -8,7 +8,6 @@ if enabled then
   local hunger_per_cubic = 1/100 --1 hp per 100 blocks dig
   
   local hunger = 0
-  local hunger = 0
   
   local player = nil
   local pos_one
@@ -22,6 +21,7 @@ if enabled then
   minetest.register_on_dignode(function(pos, oldnode, player)
     hunger = hunger + hunger_per_cubic
     if hunger >= 0.5 then
+      hunger = 0
       player:set_hp(player:get_hp()-hunger)
     end
   end)
