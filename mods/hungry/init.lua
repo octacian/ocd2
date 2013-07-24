@@ -2,9 +2,14 @@
 local enabled = minetest.setting_getbool("enable_damage")
 if enabled then
   local timer = 0
-  local hunger_per_meter = 1/500 --1 hp per kilometer
-  local distance_interval = 15 --set hunger interval in seconds
-  local distance_hunger = 0
+  local distance_interval = 15 --set distance check interval in seconds
+  
+  local hunger_per_meter = 1/500 --1 hp per 500 meter walk
+  local hunger_per_cubic = 1/100 --1 hp per 100 blocks dig
+  
+  local hunger = 0
+  local hunger = 0
+  
   local player = nil
   local pos_one
   minetest.register_on_joinplayer(function(joiner)
@@ -13,19 +18,26 @@ if enabled then
       pos_one = player:getpos()
     end)
   end)
+  
+  minetest.register_on_dignode(function(pos, oldnode, player)
+    hunger = hunger + hunger_per_cubic
+    if hunger >= 0.5 then
+      player:set_hp(player:get_hp()-hunger)
+    end
+  end)
+  
   minetest.register_globalstep(function(dtime)
     if player ~= nil then
       timer = timer + dtime
       if timer >= distance_interval then
         timer = 0
         local pos_two = player:getpos()
-        distance_hunger = distance_hunger + (math.hypot(pos_one.x-pos_two.x, pos_one.y-pos_two.y)+math.abs(pos_one.y-pos_two.y))*hunger_per_meter
+        hunger = hunger + (math.hypot(pos_one.x-pos_two.x, pos_one.y-pos_two.y)+math.abs(pos_one.y-pos_two.y))*hunger_per_meter
         pos_one = pos_two
-        print(distance_hunger)
-        if distance_hunger >=0.5 then
+        if hunger >=0.5 then
           timer = 0
-          player:set_hp(player:get_hp()-distance_hunger)
-          distance_hunger=0
+          player:set_hp(player:get_hp()-hunger)
+          hunger=0
           minetest.sound_play({ name="hunger_stomach" }, {
             gain = 1.0;
             max_hear_distance = 16;
@@ -35,3 +47,5 @@ if enabled then
     end
   end)
 end
+
+
