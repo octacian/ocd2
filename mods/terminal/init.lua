@@ -1,5 +1,5 @@
 terminal = {}
-terminal.allow_mesecons_and_digilines = false
+terminal.allow_mesecons_and_digilines = true --set to true of you want to use mesecons and digilines triggering
 
 minetest.register_privilege("terminal", "Can use terminal nodes")
 
@@ -81,7 +81,13 @@ minetest.register_node("terminal:client_on", {
 function terminal_command(command, sender, pos)
   local privs = minetest.get_player_privs(sender)
   if (sender == "mesecons" or sender == "digilines") then
-    if (terminal.allow_mesecons_and_digilines == false) then return "Digiline and mesecon triggering disabled" end
+    if (terminal.allow_mesecons_and_digilines == false) then 
+      print("[terminal] see terminal/init.lua to enable mesecon and digiline triggering")
+      local meta = minetest.env:get_meta(pos)
+      local channel = meta:get_string("channel-out")
+      digiline:receptor_send(pos, digiline.rules.default, channel, "see init.lua to enable digilines and mesecons") --next version will also send player threw digilines (will require a table)
+      return
+    end
   else
     if ( privs == nil or not privs["terminal"] ) then return "Permission denied" end
   end

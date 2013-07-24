@@ -58,9 +58,9 @@ minetest.register_node("farming:cotton", {
 			{ items = {'farming:cotton_seed'} },
 			{ items = {'farming:cotton_seed'}, rarity = 2},
 			{ items = {'farming:cotton_seed'}, rarity = 5},
-			{ items = {'wool:white'} },
-			{ items = {'wool:white'}, rarity = 2 },
-			{ items = {'wool:white'}, rarity = 5 }
+			{ items = {'farming:string'} },
+			{ items = {'farming:string'}, rarity = 2 },
+			{ items = {'farming:string'}, rarity = 5 }
 		}
 	},
 	groups = {snappy=3, flammable=2, not_in_creative_inventory=1},
@@ -76,7 +76,12 @@ minetest.register_craftitem("farming:string", {
 
 minetest.register_craft({
 	output = "wool:white",
-	recipe = {{"farming:string"}}
+	recipe = {{"farming:string","farming:string"},{"farming:string","farming:string"}}
+})
+
+minetest.register_craftitem("farming:string", {
+	description = "Cotton fibers",
+	inventory_image = "farming_string.png",
 })
 
 -- ========= FUEL =========
