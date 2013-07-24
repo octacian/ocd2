@@ -551,8 +551,9 @@ mesecon_lamp_box = {
 
 minetest.register_node("default:torch", {
 	drawtype = "nodebox",
-	tiles = {"default_torch.png", "default_torch_side.png"},
-	inventory_image = "default_torch.png",
+	description = "Electrical lamp",
+	tiles = {"default_torch.png"},
+	inventory_image = "default_torch_inventory.png",
 	wield_light = 5,
 	paramtype = "light",
 	paramtype2 = "wallmounted",
