@@ -1,25 +1,18 @@
 minetest.register_node("farming:weed", {
 	description = "Weed",
+	drawtype = "raillike",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	drawtype = "nodebox",
 	tiles = {"farming_weed.png"},
 	inventory_image = "farming_weed.png",
-	
-	node_box = {
-    type = "fixed",
-    fixed = {
-      {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5}
-      },
-  },
-  selection_box = {
-    type = "fixed",
-    fixed = {
-      {-0.5, -0.45, -0.5, 0.5, -0.5, 0.5}
-    },
-  },
-	groups = {snappy=3, flammable=2},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, -0.5+4/16, 0.5}
+		},
+	},
+	groups = {snappy=3, flammable=2, attached_node=1},
 	sounds = default.node_sound_leaves_defaults()
 })
 

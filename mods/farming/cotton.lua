@@ -25,7 +25,7 @@ minetest.register_node("farming:cotton_1", {
 			{-0.5, -0.5, -0.5, 0.5, -0.5+6/16, 0.5}
 		},
 	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1},
+	groups = {snappy=3, flammable=2, not_in_creative_inventory=1, attached_node=1},
 	sounds = default.node_sound_leaves_defaults(),
 })
 
@@ -42,7 +42,7 @@ minetest.register_node("farming:cotton_2", {
 			{-0.5, -0.5, -0.5, 0.5, -0.5+12/16, 0.5}
 		},
 	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1},
+	groups = {snappy=3, flammable=2, not_in_creative_inventory=1, attached_node=1},
 	sounds = default.node_sound_leaves_defaults(),
 })
 
@@ -63,7 +63,7 @@ minetest.register_node("farming:cotton", {
 			{ items = {'farming:string'}, rarity = 5 }
 		}
 	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1},
+	groups = {snappy=3, flammable=2, not_in_creative_inventory=1, attached_node=1},
 	sounds = default.node_sound_leaves_defaults(),
 })
 
@@ -76,12 +76,7 @@ minetest.register_craftitem("farming:string", {
 
 minetest.register_craft({
 	output = "wool:white",
-	recipe = {{"farming:string","farming:string"},{"farming:string","farming:string"}}
-})
-
-minetest.register_craftitem("farming:string", {
-	description = "Cotton fibers",
-	inventory_image = "farming_string.png",
+	recipe = {{"farming:string"}}
 })
 
 -- ========= FUEL =========

@@ -97,9 +97,16 @@ minetest.register_abm({
   end,
 })
 
-minetest.register_alias("trees:leaves_dead_mangrove", "trees:leaves_mangrove")
-minetest.register_alias("trees:leaves_dead_mangrove", "trees:leaves_mangrove")
-minetest.register_alias("trees:tree_dead_mangrove", "trees:tree_mangrove")
+minetest.register_abm({
+  nodenames = "trees:sapling_mangrove",
+  interval = 1000,
+  chance = 4,
+  action = function(pos, node, _, _)
+    if minetest.env:get_node({x = pos.x, y = pos.y + 1, z = pos.z}).name == "air" then
+      abstract_trees.grow_mangrovetree({x = pos.x, y = pos.y, z = pos.z})
+      end
+    end
+})
 
 --spawning
 plantslib:register_generate_plant({

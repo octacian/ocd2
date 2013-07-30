@@ -131,9 +131,9 @@ function farming:generate_tree(pos, trunk, leaves, underground, replacements)
 end
 
 farming.seeds = {
-	--["farming:wheat_seed"]=,
-	["farming:cotton_seed"]=10,
-	--["farming:pumpkin_seed"]=0,
+	["farming:wheat_seed"]=20,
+	["farming:cotton_seed"]=30,
+	["farming:pumpkin_seed"]=60,
 }
 
 -- ========= ALIASES FOR FARMING MOD BY SAPIER =========

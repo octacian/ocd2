@@ -1,5 +1,5 @@
 --function
-abstract_trees.grow_palmtree = function(pos, size)
+abstract_trees.grow_palmtree = function(pos)
   local size = 4+math.random(2)
   local trunk_section_height = 2
   local trunk_node = "trees:tree_palm"
@@ -33,6 +33,18 @@ abstract_trees.grow_palmtree = function(pos, size)
     trunk_section_height = trunk_section_height * 2 -1
   end
 end
+
+-- abm
+minetest.register_abm({
+  nodenames = "trees:sapling_palm",
+  interval = 1000,
+  chance = 4,
+  action = function(pos, node, _, _)
+    if minetest.env:get_node({x = pos.x, y = pos.y + 1, z = pos.z}).name == "air" then
+      abstract_trees.grow_palmtree({x = pos.x, y = pos.y, z = pos.z})
+      end
+    end
+})
 
 --spawn
 plantslib:register_generate_plant({

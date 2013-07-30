@@ -1,102 +1,40 @@
-local makes_fire = true -- set to false if you want to light the fire yourself and extinguish it
+local makes_fire = false -- set to false if you want to light the fire yourself and extinguish it
 local group
-
 if makes_fire == true then
   group = {igniter=2, immortal, not_in_creative_inventory=1}
 else
   group = {igniter=2, immortal, not_in_creative_inventory=1, dig_immediate=3}
 end
-
 minetest.register_alias("firestone", "firestone:firestone")
-
 minetest.register_craft({
   output = '"firestone:firestone" 1',
   recipe = {
-    {'default:cobble', 'default:torch', 'default:cobble'},
-    {'default:cobble', 'default:coal_lump', 'default:cobble'},
-    {'default:cobble', 'default:cobble', 'default:cobble'},
+    {'default:stone', 'default:torch', 'default:stone'},
+    {'default:stone', 'default:coal_lump', 'default:stone'},
+    {'default:stone', 'default:stone', 'default:stone'},
   }
 })
-
 minetest.register_node("firestone:firestone", {
   description = "Fire node",
-  tile_images = {"default_cobble.png^firestone_top.png", "default_cobble.png", "default_cobble.png^default_coal_lump.png"},
+  tile_images = {"default_mineral_coal.png", "default_stone.png", "default_stone.png"},
   groups = {igniter=2, cracky=3, stone=2},
   damage_per_second = 4,
   after_place_node = function(pos)
     local t = {x=pos.x, y=pos.y+1, z=pos.z}
     local n = minetest.env:get_node(t)
     if n.name == "air" and makes_fire == true then
-      minetest.env:add_node(t, {name="firestone:flame"})
+      minetest.env:place_node(pointed_thing.above, {name="fire:basic_flame", param1 = 1})
     end
   end,
   after_dig_node = function(pos)
     local t = {x=pos.x, y=pos.y+1, z=pos.z}
     local n = minetest.env:get_node(t)
-    if n.name == "firestone:flame" or n.name == "firestone:flame_low" then
+    if n.name == "fire:basic_flame" then
       minetest.env:remove_node(t)
     end
   end,
 })
-
-minetest.register_node("firestone:flame", {
-  description = "Fire",
-  drawtype = "plantlike",
-  tiles = {{
-    name="fire_basic_flame_animated.png",
-    animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=1},
-  }},
-  inventory_image = "fire_basic_flame.png",
-  light_source = 14,
-  groups = group,
-  drop = '',
-  walkable = false,
-  damage_per_second = 4,
-  selection_box = {
-    type = "fixed",
-    fixed = { 0, 0, 0, 0, 0, 0 },
-  },
-})
-
-minetest.register_node("firestone:flame_low", {
-  description = "Fire",
-  drawtype = "plantlike",
-  tiles = {{
-    name="fire_basic_flame_animated.png",
-    animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=1},
-  }},
-  inventory_image = "fire_basic_flame.png",
-  light_source = 12,
-  groups = group,
-  drop = '',
-  walkable = false,
-  damage_per_second = 4,
-  selection_box = {
-    type = "fixed",
-    fixed = { 0, 0, 0, 0, 0, 0 },
-  },
-})
-
-minetest.register_abm({
-  nodenames = {"firestone:firestone"},
-  interval = 2,
-  chance = 5,
-  action = function(pos)
-    local t = {x=pos.x, y=pos.y+1, z=pos.z}
-    local n = minetest.env:get_node(t)
-    if n.name == "firestone:flame_low" then
-      minetest.env:set_node(t, {name="firestone:flame"})
-    elseif n.name == "firestone:flame" then
-      minetest.env:set_node(t, {name="firestone:flame_low"})
-    end
-    if n.name == "fire:basic_flame" then
-      minetest.env:set_node(t, {name="firestone:flame"})
-    end
-  end,
-})
-
 --aximx51v chimney code
-
 minetest.register_abm(
   {nodenames = {"firestone:chimney"},
   neighbors = {"group:igniter"},
@@ -128,7 +66,6 @@ minetest.register_abm(
     end
   end,
 })
-
 minetest.register_abm(
   {nodenames = {"firestone:smoke"},
   interval = 5.0,
@@ -142,16 +79,14 @@ minetest.register_abm(
     end
   end
 })
-
 minetest.register_craft({
   output = '"firestone:chimney" 4',
   recipe = {
-    {'', 'default:cobble', ''},
-    {'default:cobble', '', 'default:cobble'},
-    {'', 'default:cobble', ''},
+    {'', 'default:stone', ''},
+    {'default:stone', '', 'default:stone'},
+    {'', 'default:stone', ''},
   }
 })
-
 minetest.register_node("firestone:chimney", {
   description = "Chimney",
   drawtype = "nodebox",
@@ -166,29 +101,94 @@ minetest.register_node("firestone:chimney", {
   selection_box = {
     type = "regular",
   },
-  tiles ={"default_cobble.png"},
+  tiles ={"default_stone.png"},
   paramtype = 'light',
   sunlight_propagates = true,
   walkable = true,
   groups = {cracky=2},
 })
-
 minetest.register_node("firestone:smoke", {
-    description = "smoke",
-    drawtype = "plantlike", 
-    tiles ={{
-    name="firestone_smoke.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=4.0},
-    }},
-    sunlight_propagates = true,
-    groups = {not_in_creative_inventory=1},
-    paramtype = "light",
-    walkable = false,
-    pointable = false,
-    diggable = false,
-    buildable_to = true,
-    light_source = 10,
-    on_place_node = function(pos)
-        local old = minetest.env:get_meta(pos)
-        old:set_int("age", 0)
+  description = "smoke",
+  drawtype = "plantlike", 
+  tiles ={{
+  name="firestone_smoke.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=4.0},
+  }},
+  sunlight_propagates = true,
+  groups = {not_in_creative_inventory=1},
+  paramtype = "light",
+  walkable = false,
+  pointable = false,
+  diggable = false,
+  buildable_to = true,
+  light_source = 10,
+  on_place_node = function(pos)
+      local old = minetest.env:get_meta(pos)
+      old:set_int("age", 0)
+  end
+})
+-- original code from BlockMen
+minetest.register_node(":default:gravel", {
+  description = "Gravel",
+  tiles = {"default_gravel.png"},
+  is_ground_content = true,
+  groups = {crumbly=2, falling_node=1},
+  drop = {
+    max_items = 1,
+    items = {
+      {
+        items = {'firestone:flintstone'},
+        rarity = 10,
+      },
+      {
+        items = {'default:gravel'},
+      }
+    }
+  },
+  sounds = default.node_sound_dirt_defaults({
+    footstep = {name="default_gravel_footstep", gain=0.45},
+  }),
+})
+minetest.register_craftitem("firestone:flintstone", {
+  description = "Flintstone",
+  inventory_image = "flint_flintstone.png",
+})
+minetest.register_craft({
+  output = 'firestone:lighter',
+  recipe = {
+    {'default:steel_ingot', ''},
+    {'', 'firestone:flintstone'},
+  }
+})
+local function set_fire(pointed_thing)
+  local p = pointed_thing.above
+  local n = minetest.env:get_node(p)
+  if n.name ~= ""  and n.name == "air" then
+    if minetest.get_node({x=p.x,y=p.y-1,z=p.z}).name == "firestone:firestone" then
+      minetest.env:add_node(pointed_thing.above, {name="fire:basic_flame", param1 = 1})
+    else
+      minetest.env:place_node(pointed_thing.above, {name="fire:basic_flame"})
     end
+  end
+end
+minetest.register_tool("firestone:lighter", {
+  description = "Lighter",
+  inventory_image = "flint_lighter.png",
+  liquids_pointable = false,
+  stack_max = 1,
+  tool_capabilities = {
+    full_punch_interval = 1.0,
+    max_drop_level=0,
+    groupcaps={
+      flamable = {uses=65, maxlevel=1},
+    }
+  },
+  --groups = {hot=3, igniter=1, not_in_creative_inventory=1},
+  on_use = function(itemstack, user, pointed_thing)
+    if pointed_thing.type == "node" then
+      set_fire(pointed_thing)
+      itemstack:add_wear(65535/65)
+      return itemstack
+    end
+  end,
+
 })

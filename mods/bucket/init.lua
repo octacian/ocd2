@@ -34,6 +34,7 @@ function bucket.register_liquid(source, flowing, itemname, inventory_image, name
 
 	if itemname ~= nil then
 		minetest.register_craftitem(itemname, {
+			wield_scale = {x=0.5,y=0.5,z=0.5},
 			description = name,
 			inventory_image = inventory_image,
 			stack_max = 1,
@@ -91,6 +92,7 @@ minetest.register_craftitem("bucket:bucket_empty", {
 	description = "Empty Bucket",
 	inventory_image = "bucket.png",
 	stack_max = 1,
+	wield_scale = {x=0.8,y=0.8,z=0.8},
 	liquids_pointable = true,
 	on_use = function(itemstack, user, pointed_thing)
 		-- Must be pointing to node

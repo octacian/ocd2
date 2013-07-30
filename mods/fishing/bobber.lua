@@ -1,7 +1,5 @@
 -----------------------------------------------------------------------------------------------
--- Fishing - Mossmanikin's version - Bobber 0.0.6
--- original by wulfsdad (http://forum.minetest.net/viewtopic.php?id=4375)
--- this version by Mossmanikin
+-- Fishing - Mossmanikin's version - Bobber 0.1.0
 -- License (code & textures): 	WTFPL
 -- Contains code from: 		fishing (original), mobs, throwing
 -- Supports:				animal_clownfish, animal_fish_blue_white, animal_rat, mobs
@@ -33,6 +31,19 @@ minetest.register_node("fishing:bobber_box", {
 		}
 	},
 	tiles = {"fishing_bobber.png"},
+	groups = {not_in_creative_inventory=1},
+})
+
+minetest.register_node("fishing:bobber_box_ready", {
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+--			{ left	, bottom , front  ,  right ,  top   ,  back  }
+			{-0.0625, -0.6875, -0.0625,  0.0625, -0.5625,  0.0625},	
+		}
+	},
+	tiles = {"fishing_bobber_ready.png"},
 	groups = {not_in_creative_inventory=1},
 })
 
@@ -70,7 +81,7 @@ local FISHING_BOBBER_ENTITY={
 			local room_fish = inv:room_for_item("main", {name="fishing:fish_raw", count=1, wear=0, metadata=""})
 			if self.object:get_hp() <= 300 then
 			if math.random(1, 100) < FISH_CHANCE then
-				local chance = math.random(1, 82)
+				local chance = math.random(1, 84)
 				if chance <= 60 then
 					if room_fish then
 						inv:add_item("main", {name="fishing:fish_raw", count=1, wear=0, metadata=""})
@@ -150,7 +161,42 @@ local FISHING_BOBBER_ENTITY={
 						end
 					end
 				end
-			
+				elseif chance == 83 then
+					if minetest.get_modpath("flowers_plus") ~= nil then
+						if inv:room_for_item("main", {name="flowers:seaweed", count=1, wear=0, metadata=""}) then
+							inv:add_item("main", {name="flowers:seaweed", count=1, wear=0, metadata=""})
+							if MESSAGES == true then
+								--minetest.chat_send_all("You caught a Clownfish.")
+								minetest.chat_send_player(player, "You caught some Seaweed.", false)
+							end
+						end
+					else
+					if room_fish then
+						inv:add_item("main", {name="fishing:fish_raw", count=1, wear=0, metadata=""})
+						if MESSAGES == true then
+							--minetest.chat_send_all("You caught a Fish.")
+							minetest.chat_send_player(player, "You caught a Fish.", false)
+						end
+					end
+				end
+				elseif chance == 84 then
+					if minetest.get_modpath("seaplants") ~= nil then
+						if inv:room_for_item("main", {name="seaplants:leavysnackgreen", count=1, wear=0, metadata=""}) then
+							inv:add_item("main", {name="seaplants:leavysnackgreen", count=1, wear=0, metadata=""})
+							if MESSAGES == true then
+								--minetest.chat_send_all("You caught a Clownfish.")
+								minetest.chat_send_player(player, "You caught a Leavy Snack.", false)
+							end
+						end
+					else
+					if room_fish then
+						inv:add_item("main", {name="fishing:fish_raw", count=1, wear=0, metadata=""})
+						if MESSAGES == true then
+							--minetest.chat_send_all("You caught a Fish.")
+							minetest.chat_send_player(player, "You caught a Fish.", false)
+						end
+					end
+				end
 			else 
 				if MESSAGES == true then
 					--minetest.chat_send_all("Your fish escaped.")
@@ -222,6 +268,11 @@ local FISHING_BOBBER_ENTITY={
 					pos = self.object:getpos(),
 					gain = 0.5,
 				})
+				if BOBBER_COLOR_CHANGE == true then
+					self.object:set_properties({
+						textures = {"fishing:bobber_box_ready"},
+					})
+				end
 				self.object:moveto({x=pos.x,y=pos.y-0.0625,z=pos.z})
 			elseif self.object:get_hp() == 295 then
 				self.object:moveto({x=pos.x,y=pos.y+0.0625,z=pos.z})
@@ -229,7 +280,9 @@ local FISHING_BOBBER_ENTITY={
 				self.object:moveto({x=pos.x,y=pos.y+0.0625,z=pos.z})
 			elseif self.object:get_hp() == 285 then
 				self.object:moveto({x=pos.x,y=pos.y-0.0625,z=pos.z})
-			elseif self.object:get_hp() == 160 then
+			elseif self.object:get_hp() < 284 then	
+				self.object:moveto({x=pos.x+(0.001*(math.random(-8, 8))),y=pos.y,z=pos.z+(0.001*(math.random(-8, 8)))})
+			elseif self.object:get_hp() == 0 then
 				minetest.sound_play("fishing_bobber1", {
 					pos = self.object:getpos(),
 					gain = 0.5,

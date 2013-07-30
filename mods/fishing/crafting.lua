@@ -23,6 +23,25 @@ minetest.register_craft({
 	}
 })
 
+minetest.register_craft({
+	output = "fishing:pole",
+	recipe = { 
+		{"", 				"",					"default:stick"  },
+		{"", 				"default:stick",	"moreblocks:rope"},
+		{"default:stick",	"",					"moreblocks:rope"},
+	}
+})
+
+minetest.register_craft({
+	output = "fishing:pole",
+	recipe = { 
+		{"", 				"",					"default:stick"	},
+		{"", 				"default:stick",	"ropes:rope"   	},
+		{"default:stick",	"",					"ropes:rope"   	},
+	}
+})
+
+
 -----------------------------------------------------------------------------------------------
 -- Fish
 -----------------------------------------------------------------------------------------------
@@ -40,5 +59,11 @@ minetest.register_craft({
 	type = "shapeless",
 	output = "fishing:sushi",
 	recipe = {"fishing:fish_raw","flowers:seaweed"},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "fishing:sushi",
+	recipe = {"fishing:fish_raw","seaplants:leavysnackgreen"},
 })
 

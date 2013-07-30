@@ -2,8 +2,9 @@
 
 minetest.register_node("fire:basic_flame", {
 	description = "Fire",
-	use_texture_alpha = true,
 	drawtype = "plantlike",
+	visual_scale = 1.19,
+	use_texture_alpha = true,
 	tiles = {{
 		name="fire_basic_flame_animated.png",
 		animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=1},
@@ -156,6 +157,8 @@ minetest.register_abm({
 	interval = 1,
 	chance = 2,
 	action = function(p0, node, _, _)
+	  --check if fire is permenant or not
+	  
 		-- If there is water or stuff like that around flame, remove flame
 		if fire.flame_should_extinguish(p0) then
 			minetest.remove_node(p0)
@@ -163,6 +166,8 @@ minetest.register_abm({
 			return
 		end
 		-- Make the following things rarer
+		if minetest.env:get_node(p0).param1 == 1 then return end
+		
 		if math.random(1,3) == 1 then
 			return
 		end
