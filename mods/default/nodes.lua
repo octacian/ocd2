@@ -314,17 +314,26 @@ minetest.register_node("default:cactus", {
 
 minetest.register_node("default:papyrus", {
 	description = "Papyrus",
-	drawtype = "plantlike",
+	drawtype = "nodebox",
+	node_box = { 
+    type = "fixed",
+    fixed = {
+      {0.5/5, -2.5/5, -1.5/5, 1.5/5, 2.5/5, -0.5/5},
+        {0.5/5, -2.5/5, 0.5/5, 1.5/5, 2.5/5, 1.5/5},
+        {-1.5/5, -2.5/5, 0.5/5, -0.5/5, 2.5/5, 1.5/5},
+        {-1.5/5, -2.5/5, -1.5/5, -0.5/5, 2.5/5, -0.5/5},
+        {1.5/5, -0.5/5, -2.5/5, 2.5/5, 0.5/5, -1.5/5},
+        {1.5/5, 1.5/5, 1.5/5, 2.5/5, 2.5/5, 2.5/5},
+        {-2.5/5, -1.5/5, 1.5/5, -1.5/5, -0.5/5, 2.5/5},
+        {-2.5/5, 0.5/5, -2.5/5, -1.5/5, 1.5/5, -1.5/5},
+    }
+  },
 	tiles = {"default_papyrus.png"},
 	inventory_image = "default_papyrus.png",
 	wield_image = "default_papyrus.png",
 	paramtype = "light",
 	walkable = false,
 	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.3}
-	},
 	groups = {snappy=3,flammable=2},
 	sounds = default.node_sound_leaves_defaults(),
 })
@@ -1122,11 +1131,19 @@ minetest.register_node("default:nyancat_rainbow", {
 
 minetest.register_node("default:sapling", {
 	description = "Sapling",
-	drawtype = "plantlike",
+	drawtype = "nodebox",
+	node_box = {
+    type = "fixed",
+    fixed = {
+      {-0.5/5, -2.5/5, -0.5/5, 0.5/5, 0.5/5, 0.5/5},
+      {-0.5/5, -0.5/5, -1.5/5, 1.5/5, 1.5/5, 0.5/5},
+      {-1.5/5, 0.5/5, -0.5/5, 0.5/5, 2.5/5, 1.5/5},
+      {-0.5/5, -0.5/5, 0.5/5, 1.5/5, 0.5/5, 1.5/5},
+      {-1.5/5, 0.5/5, -1.5/5, -0.5/5, 1.5/5, -0.5/5},
+    }
+  },
 	visual_scale = 1.0,
 	tiles = {"default_sapling.png"},
-	inventory_image = "default_sapling.png",
-	wield_image = "default_sapling.png",
 	paramtype = "light",
 	walkable = false,
 	selection_box = {
@@ -1139,17 +1156,21 @@ minetest.register_node("default:sapling", {
 
 minetest.register_node("default:apple", {
 	description = "Apple",
-	drawtype = "plantlike",
+	drawtype = "nodebox",
 	visual_scale = 1.0,
 	tiles = {"default_apple.png"},
+	node_box = { 
+    type = "fixed",
+    fixed = {
+      {-1.5/5, -1.5/5, -1.5/5, 1.5/5, 1.5/5, 1.5/5},
+      {-0.5/5, 1.5/5, -0.5/5, 0.5/5, 2.5/5, 0.5/5},
+    }
+  },
+	
 	inventory_image = "default_apple.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2, 0.2, 0, 0.2}
-	},
 	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
 	on_use = minetest.item_eat(1),
 	sounds = default.node_sound_leaves_defaults(),
@@ -1194,12 +1215,6 @@ minetest.register_node("default:grass_1", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
 	},
-	on_place = function(itemstack, placer, pointed_thing)
-		-- place a random grass node
-		local stack = ItemStack("default:grass_"..math.random(1,5))
-		local ret = minetest.item_place(stack, placer, pointed_thing)
-		return ItemStack("default:grass_1 "..itemstack:get_count()-(1-ret:get_count()))
-	end,
 })
 
 minetest.register_node("default:grass_2", {
@@ -1270,7 +1285,7 @@ minetest.register_node("default:grass_5", {
 	buildable_to = true,
 	is_ground_content = true,
 	drop = "default:grass_1",
-	groups = {snappy=3,flammable=3,flora=1,attached_node=1,not_in_creative_inventory=1},
+	groups = {flower=1, snappy=3,flammable=3,flora=1,attached_node=1,not_in_creative_inventory=1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",

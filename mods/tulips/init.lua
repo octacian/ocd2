@@ -22,6 +22,10 @@ minetest.register_node(mod..":plant", {--register wild plant
 })
   
 
+        
+        
+    
+        
 for i = 1, 9 do
   local hue = dye.basecolors[i]
   local hue2 = dye.basecolors[i]
@@ -32,7 +36,7 @@ for i = 1, 9 do
   --node
   --tulip
   minetest.register_node(mod..":"..hue, {--register wild plant
-    tile_images = {img},
+    tiles = {img},
     inventory_image = img,
     description = hue.." tulip",
     drop = {
@@ -44,22 +48,28 @@ for i = 1, 9 do
 			  { items = {mod..":"..hue.."_seeds"}, rarity = 5},
 		  }
 	  },
-    drawtype = "plantlike",
+	  node_box = { 
+      type = "fixed",
+      fixed = {
+        {-0.5/5, -2.5/5, -0.5/5, 0.5/5, 0.5/5, 0.5/5},
+        {-1.5/5, -0.5/5, -1.5/5, -0.5/5, 1.5/5, -0.5/5},
+        {0.5/5, -0.5/5, -1.5/5, 1.5/5, 1.5/5, -0.5/5},
+        {0.5/5, -0.5/5, 0.5/5, 1.5/5, 1.5/5, 1.5/5},
+        {-1.5/5, -0.5/5, 0.5/5, -0.5/5, 1.5/5, 1.5/5},
+      }
+    },
+    drawtype = "nodebox",
     paramtype = 'light',
     sunlight_propagates = true,
     walkable = false,
     visual_scale = 1,
-    groups = { snappy = 3,flammable=2, attached_node=1, flower=1, not_in_creative_inventory=1},
+    groups = { snappy = 3,flammable=2, attached_node=1, flower=1, flora=1, not_in_creative_inventory=1},
     sounds = default.node_sound_leaves_defaults(),
-    selection_box = {
-      type = "fixed",
-      fixed = { -3/16, -8/16, -3/16, 3/16, 3/16, 3/16 },
-    },
   })
   --sprout
   img = "tulips_sprout.png"
   minetest.register_node(mod..":"..hue.."_sprout", {--register wild plant
-    tile_images = {img},
+    tiles = {img},
     inventory_image = img,
     description = hue2.." tulip",
     drop = "",

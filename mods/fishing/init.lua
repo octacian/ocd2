@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------------
 local title		= "Fishing - Mossmanikin's version"
-local version 	= "0.1.1"
+local version 	= "0.1.0"
 local mname		= "fishing"
 -----------------------------------------------------------------------------------------------
 -- original by wulfsdad (http://forum.minetest.net/viewtopic.php?id=4375)
@@ -14,15 +14,10 @@ local mname		= "fishing"
 
 -- todo: 	item wear 											done
 --			automatic re-baiting option 						done
---			different types of fish, 							sort of
+--			different types of fish/sushi, 						sort of
 --			add sound											done
 --			bobber												done
 --			change rainworms filling inv & make 'em disappear 	done
-
---			placable fishing rod for decoration					done
---			make bobber move slowly while fish on hook			done
--- 			catch bigger fish with smaller
---			change color of bobber when fish on hook			done
 
 -----------------------------------------------------------------------------------------------
 
@@ -42,7 +37,6 @@ local function rod_wear(itemstack, user, pointed_thing, uses)
 end
 
 minetest.register_tool("fishing:pole", {
-
 	description = "Fishing Pole",
 	groups = {},
 	inventory_image = "fishing_pole.png",
@@ -74,101 +68,8 @@ minetest.register_tool("fishing:pole", {
 		end
 		return nil
 	end,
-	on_place = function(itemstack, placer, pointed_thing)
-		local pt = pointed_thing
-		minetest.set_node({x=pt.under.x, y=pt.under.y+1, z=pt.under.z}, {name="fishing:pole_deco"})
-		itemstack:take_item()
-		return itemstack
-	end,
 })
 
-if SIMPLE_DECO_FISHING_POLE == true then
-minetest.register_node("fishing:pole_deco", {
-	description = "Fishing Pole",
-	drawtype = "nodebox",
-	paramtype = "light",
-	paramtype2 = "facedir",
-	tiles = {
-		"fishing_pole_simple.png",
-		"fishing_pole_simple.png",
-		"fishing_pole_simple.png",
-		"fishing_pole_simple.png^[transformFX",
-	},
-	groups = {
-		snappy=3,
-		flammable=2,
-		not_in_creative_inventory=1
-	},
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{ 0     , -1/2   ,  0     , 0      ,  1/2   ,  1   },
-		}
-	},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-1/16  , -1/2   ,  0     , 1/16   ,  1/2   ,  1   },
-		}
-	},
-	sounds = default.node_sound_wood_defaults(),
-})
-
-else
-minetest.register_node("fishing:pole_deco", {
-	description = "Fishing Pole",
-	drawtype = "nodebox",
-	paramtype = "light",
-	paramtype2 = "facedir",
-	tiles = {
-		"fishing_pole_top.png",
-		"fishing_pole_bottom.png",
-		"fishing_pole_deco.png", -- right
-		"fishing_pole_deco.png^[transformFX", -- left
-		"fishing_pole_back.png",
-		"fishing_pole_front.png"
-	},
-	node_box = {
-		type = "fixed",
---			{ left	, bottom , front  ,  right ,  top   ,  back  }
-		fixed = {
-			{-1/32  , -1/16  , 14/16  , 1/32   ,  6/16  , 15/16},
-			{-1/32  , -3/16  , 13/16  , 1/32   , -1/16  , 14/16},
-			{-1/32  , -4/16  , 12/16  , 1/32   , -3/16  , 13/16},
-			{-1/32  , -5/16  , 11/16  , 1/32   , -4/16  , 12/16},
-			{-1/32  , -6/16  ,  9/16  , 1/32   , -5/16  , 11/16},
-			{-1/32  , -5/16  ,  9/16  , 1/32   , -4/16  , 10/16},
-			-- stick
-			{-1/32  ,  6/16  , 12/16  , 1/32   ,  7/16  , 15/16}, -- top
-			{-1/32  ,  5/16  , 11/16  , 1/32   ,  7/16  , 12/16},
-			{-1/32  ,  5/16  , 10/16  , 1/32   ,  6/16  , 11/16},
-			{-1/32  ,  4/16  ,  9/16  , 1/32   ,  6/16  , 10/16},
-			{-1/32  ,  3/16  ,  8/16  , 1/32   ,  5/16  ,  9/16},
-			{-1/32  ,  2/16  ,  7/16  , 1/32   ,  4/16  ,  8/16},
-			{-1/32  ,  1/16  ,  6/16  , 1/32   ,  3/16  ,  7/16},
-			{-1/32  ,  0     ,  5/16  , 1/32   ,  2/16  ,  6/16},
-			{-1/32  , -2/16  ,  4/16  , 1/32   ,  1/16  ,  5/16},
-			{-1/32  , -3/16  ,  3/16  , 1/32   ,  0     ,  4/16},
-			{-1/32  , -5/16  ,  2/16  , 1/32   , -1/16  ,  3/16},
-			{-1/32  , -7/16  ,  1/16  , 1/32   , -3/16  ,  2/16},
-			{-1/32  , -1/2   ,  0     , 1/32   , -5/16  ,  1/16}, -- bottom
-		}
-	},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-1/16  , -1/2   ,  0     , 1/16   ,  1/2   ,  1   },
-		}
-	},
-	groups = {
-		snappy=3,
-		flammable=2,
-		not_in_creative_inventory=1
-	},
-	sounds = default.node_sound_wood_defaults(),
-})
-
-end
 -----------------------------------------------------------------------------------------------
 -- GETTING WORMS
 -----------------------------------------------------------------------------------------------

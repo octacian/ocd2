@@ -67,6 +67,13 @@ minetest.register_node("bees:hive_artificial", {
   paramtype2 = "facedir",
   groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3,wood=1},
   sounds = default.node_sound_wood_defaults(),
+  node_box = {
+    type = "fixed",
+    fixed = {
+      {-4/8, 3/8, -4/8, 4/8, 4/8, 4/8},
+      {-3/8, -4/8, -3/8, 3/8, 3/8, 3/8},
+    }
+  },
   on_construct = function(pos)
     local tmr = minetest.env:get_node_timer(pos)
     tmr:start(10)
@@ -80,6 +87,17 @@ minetest.register_node("bees:hive_artificial_inhabited", {
   description = "Bee Hive",
   tiles = {"default_wood.png","default_wood.png","default_wood.png", "default_wood.png","default_wood.png","bees_hive_artificial.png"},
   drawtype = "nodebox",
+  node_box = {
+    type = "fixed",
+    fixed = {
+      {-4/8, 2/8, -4/8, 4/8, 3/8, 4/8},
+      {-3/8, -4/8, -2/8, 3/8, 2/8, 3/8},
+      {-3/8, 0/8, -3/8, 3/8, 2/8, -2/8},
+      {-3/8, -4/8, -3/8, 3/8, -1/8, -2/8},
+      {-3/8, -1/8, -3/8, -1/8, 0/8, -2/8},
+      {1/8, -1/8, -3/8, 3/8, 0/8, -2/8},
+    }
+  },
   drop = "bees:hive_artificial 1",
   paramtype = "light",
   paramtype2 = "facedir",
@@ -157,11 +175,11 @@ minetest.register_abm({ --for particles and sounds
 minetest.register_abm({ --spawn abm
   nodenames = {"group:leafdecay"},
   interval = 1800,
-  chance = 5,
+  chance = 500,
   action = function(pos, node, _, _)
     local p = {x=pos.x, y=pos.y-1, z=pos.z}
     if minetest.get_node(p).walkable == false then return end
-    if (minetest.find_node_near(p, 5, "group:flower") ~= nil and minetest.find_node_near(p, 20, "bees:hive") == nil) then
+    if (minetest.find_node_near(p, 5, "group:flora") ~= nil and minetest.find_node_near(p, 20, "bees:hive") == nil) then
       minetest.add_node(p, {name="bees:hive"})
     end
   end,
@@ -182,7 +200,7 @@ minetest.register_abm({ --spawning bees around bee hive
 minetest.register_abm({ --remove bees
   nodenames = {"bees:bees"},
   interval = 60,
-  chance = 2,
+  chance = 4,
   action = function(pos, node, _, _)
     minetest.remove_node(pos)
   end,
@@ -205,11 +223,13 @@ minetest.register_craftitem("bees:queen", {
   description = "Queen Bee",
   inventory_image = "bees_particle_bee.png",
   on_use = function(itemstack, user, pointed_thing)
+    if pointed_thing.under == nil then return end
+    local node = minetest.get_node(pointed_thing.under)
     local name = minetest.get_node(pointed_thing.under).name
     
     if name == "bees:hive_artificial" then
-      local facing = minetest.env:get_node(pointed_thing.under).param2
-      minetest.set_node(pointed_thing.under, {name = "bees:hive_artificial_inhabited", parm2=facing})
+      local facing = node.param2
+      minetest.set_node(pointed_thing.under, {name = "bees:hive_artificial_inhabited", param2=facing})
       itemstack:take_item()
       return itemstack
     end
@@ -217,13 +237,6 @@ minetest.register_craftitem("bees:queen", {
 })
 
 --crafts
-minetest.register_craft({
-  output = 'bees:honey 2',
-  recipe = {
-    {'bees:honey_comb'},
-  }
-})
-
 minetest.register_craft({
   output = 'bees:honey_bottle',
   recipe = {
