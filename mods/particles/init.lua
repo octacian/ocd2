@@ -1,3 +1,4 @@
+if false then
 minetest.register_abm(
   {nodenames = {"fire:basic_flame"},
   interval = 1,
@@ -41,3 +42,4 @@ minetest.register_abm({
     minetest.add_particle(p, {x=0,y=0,z=0}, {x=0,y=math.random(5)/10,z=0}, math.random(1,3), math.random(2), false, "particle_flame.png")
   end
 })
+end

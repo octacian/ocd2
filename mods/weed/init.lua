@@ -1,5 +1,5 @@
 local weed = {}
-local interval = 30
+local interval = 60
 minetest.register_abm(
   {nodenames = {"default:grass_1"},
   neighbors = {"default:grass_1"},

@@ -158,7 +158,7 @@ minetest.register_node("bees:hive_artificial_inhabited", {
 --abms
 minetest.register_abm({ --for particles and sounds
   nodenames = {"bees:hive", "bees:bees", "bees:hive_artificial_inhabited"},
-  interval = 0.3,
+  interval = 1,
   chance = 6,
   action = function(pos, node, _, _)
     if math.random()<0.5 then
@@ -187,7 +187,7 @@ minetest.register_abm({ --spawn abm
 
 minetest.register_abm({ --spawning bees around bee hive
   nodenames = {"bees:hive"},
-  interval = 30,
+  interval = 10,
   chance = 2,
   action = function(pos, node, _, _)
     local p = {x=pos.x+math.random(-5,5), y=pos.y-math.random(0,3), z=pos.z+math.random(-5,5)}
