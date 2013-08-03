@@ -569,7 +569,7 @@ minetest.register_node("default:torch", {
 	paramtype2 = "wallmounted",
 	legacy_wallmounted = true,
 	sunlight_propagates = true,
-	walkable = true,
+	walkable = false,
 	light_source = LIGHT_MAX-3,
 	node_box = mesecon_lamp_box,
 	selection_box = mesecon_lamp_box,

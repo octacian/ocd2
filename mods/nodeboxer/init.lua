@@ -1,45 +1,25 @@
-local width = 16
-local length = 16
-local height = 16
-local resolution = 5
-
+local resolution = 6
 local place_ori = nil
 local place_one = nil
 local place_two = nil
-
 local node_num = 0
 local node_box = {}
 local node_box_string = {}
-
-local function test()
-  minetest.register_node("nodeboxer:test", {
-    drawtype = "nodebox",
-    paramtype = "light",
-    groups = {dig_immediate=3,not_in_creative_inventory=1},
-    tiles = {"wool_blue.png"},
-    node_box = { --VanessaE's wild hive nodebox contribution
-      type = "fixed",
-      fixed = {
-        --{-8/16, -8/16, -8/16, -6/16, 6/16, -6/16},
-        {-8/16, 6/16, -8/16, 8/16, 8/16, 8/16},
-        {6/16, -8/16, 6/16, 8/16, 6/16, 8/16},
-        {-8/16, -8/16, 6/16, -6/16, 6/16, 8/16},
-        {6/16, -8/16, -8/16, 8/16, 6/16, -6/16},
-      }
-    },
-  })
-end
+local node_current = 0
 
 minetest.register_node("nodeboxer:spawn", {--register wild plant
-  tiles = {"default_stone.png"},
+  tiles = {"nodeboxer_model.png"},
   drawtype = "node",
   description = "Nodeboxer",
   groups = {not_in_creative_inventory=1, snappy = 3,flammable=2, attached_node=1},
-  on_rightclick = function(pos)
+  --[[
+  on_rightclick = function(pos, node, clicker)
     place_one = nil
     place_two = nil
     place_ori = pos
     node_num = 0
+    local player_name=clicker:get_player_name()
+    minetest.chat_send_player(player_name,"[Nodeboxer] New project started")
     for x=1, resolution, 1 do
       for y=1, resolution, 1 do
         for z=1, resolution, 1 do
@@ -49,17 +29,60 @@ minetest.register_node("nodeboxer:spawn", {--register wild plant
         end
       end
     end
-    
-    
   end,
-  on_construct = function(pos, node)
+  ]]--
+  on_receive_fields = function(pos, formname, fields, clicker)
+		--print("Sign at "..minetest.pos_to_string(pos).." got "..dump(fields))
+		local meta = minetest.get_meta(pos)
+		resolution = fields.text or ""
+		meta:set_string("infotext", '"'..fields.text..'"')
+		place_one = nil
+    place_two = nil
+    place_ori = pos
+    node_num = 0
     
-    for x=0, resolution+1, 1 do
-      for y=0, resolution+1, 1 do
-        for z=0, resolution+1, 1 do
-          local a = x+y+z
-          if ( a ~= 0) then
+    for x=-resolution, resolution*2+1, 1 do
+      for y=-1, resolution*2+1, 1 do
+        for z=-resolution, resolution*2+1, 1 do
+          if ( x == 0 and y == 0 and z == 0 ) then
+            local a = 0
+          else
             minetest.remove_node({x=pos.x+x,y=pos.y+y,z=pos.z+z})
+          end
+          if (x==-resolution or y==-1 or z==-resolution or x==resolution*2+1 or y==resolution*2+1 or z==resolution*2+1 ) then
+            minetest.add_node({x=pos.x+x,y=pos.y+y,z=pos.z+z}, {name = "nodeboxer:wall"})
+          end
+        end
+      end
+    end
+    
+    local player_name=clicker:get_player_name()
+    minetest.chat_send_player(player_name,"[Nodeboxer] New "..resolution.." project started")
+    for x=1, resolution, 1 do
+      for y=1, resolution, 1 do
+        for z=1, resolution, 1 do
+          local pos = {x=pos.x+x,y=pos.y+y,z=pos.z+z}
+          minetest.set_node(pos, {name = "nodeboxer:grid"})
+          local meta = minetest.get_meta(pos)
+        end
+      end
+    end
+		
+	end,
+  on_construct = function(pos, node)
+    local meta = minetest.get_meta(pos)
+    meta:set_string("infotext", "Left click to save | Right click for new project")
+    meta:set_string("formspec", "field[text;;${text}]")
+    for x=-resolution, resolution*2+1, 1 do
+      for y=-1, resolution*2+1, 1 do
+        for z=-resolution, resolution*2+1, 1 do
+          if ( x == 0 and y == 0 and z == 0 ) then
+            local a = 0
+          else
+            minetest.remove_node({x=pos.x+x,y=pos.y+y,z=pos.z+z})
+          end
+          if (x==-resolution or y==-1 or z==-resolution or x==resolution*2+1 or y==resolution*2+1 or z==resolution*2+1 ) then
+            minetest.add_node({x=pos.x+x,y=pos.y+y,z=pos.z+z}, {name = "nodeboxer:wall"})
           end
         end
       end
@@ -87,27 +110,55 @@ minetest.register_node("nodeboxer:spawn", {--register wild plant
     local place_one = nil
     local place_two = nil
   end,
-  on_punch = function(pos)
-    print("{")
-    for i=1, node_num, 1 do
-      print(node_box_string[i])
+  on_punch = function(pos, node, puncher)
+    local player_name=puncher:get_player_name()
+    if node_num == 0 then
+      minetest.chat_send_player(player_name,"[Nodeboxer] You have to draw before you can save.")
+      return
     end
-    print("}")
+    local table_string = ""
+    for i=1, node_num, 1 do
+      minetest.chat_send_player(player_name,node_box_string[i])
+      table_string = table_string..node_box_string[i]
+    end
+    minetest.chat_send_player(player_name,"[Nodeboxer] Saved project to mod folder")
+    local file = minetest.get_modpath("nodeboxer").."/nodeboxes"
+    local f = io.open(file, "r")
+    local contents = f:read("*all")
+    f = io.open(file, "w")
+    f:write(contents.."{"..table_string.."},\n")
+    f:close()
+    file = minetest.get_modpath("nodeboxer").."/code"
+    local f = io.open(file, "r")
+    local code = f:read("*all")
+    file = minetest.get_modpath("nodeboxer").."/nodeboxes.lua"
+    f = io.open(file, "w")
+    f:write("local node_boxes ={ "..contents.."{"..table_string.."},}\n"..code)
+    f:close()
   end,
 })
 
 minetest.register_node("nodeboxer:grid", {--register wild plant
-  drawtype = "glasslike",
+  drawtype = "glasslike_framed",
   paramtype = "light",
   groups = {dig_immediate=3,not_in_creative_inventory=1},
   light_source = 12,
   drop = "nodeboxer:paint",
   tiles = {"nodeboxer_wire.png"},
   sunlight_propagates = true,
-  --buildable_to = true,
+  buildable_to = true,
   pointable = true,
   walkable = false,
 	climbable = true,
+})
+
+minetest.register_node("nodeboxer:wall", {--register wild plant
+  drawtype = "node",
+  paramtype = "light",
+  groups = {indestructable=1},
+  light_source = 12,
+  tiles = {"nodeboxer_wall.png"},
+  --pointable = false,
 })
 
 minetest.register_node("nodeboxer:draw", {
@@ -115,30 +166,34 @@ minetest.register_node("nodeboxer:draw", {
   groups = {dig_immediate=3,not_in_creative_inventory=1},
   tiles = {"wool_red.png"},
   pointable = true,
+  climbable = true,
   buildable_to = true,
-  after_place_node = function(pos)
+  walkable = false,
+  after_dig_node = function(pos)
+    place_one = nil
+    place_two = nil
+  end,
+  after_place_node = function(pos, player)
+    local player_name=player:get_player_name()
     if place_one == nil then
+      if place_ori == nil then 
+        minetest.chat_send_player(player_name,"[Nodeboxer] Select a nodebox designer block")
+        return 
+      end
       place_one = pos
-      print("first pos")
+      minetest.chat_send_player(player_name,"[Nodeboxer] position 1 set")
     elseif place_two == nil then
       place_two = pos
-      print("second pos")
-
-      if place_ori == nil then return end
-      
       local min_x = math.min(place_one.x, place_two.x)
       local min_y = math.min(place_one.y, place_two.y)
       local min_z = math.min(place_one.z, place_two.z)
-
       local max_x = math.max(place_one.x, place_two.x)
       local max_y = math.max(place_one.y, place_two.y)
       local max_z = math.max(place_one.z, place_two.z)
-
       node_num = node_num + 1
-      print(node_num)
       node_box[node_num] = {{x=min_x, y=min_y, z=min_z},{x=max_x, y=max_y, z=max_z}}
-      node_box_string[node_num] = "\t".."{"..(min_x-place_ori.x-(resolution/2+1)).."/"..resolution..", "..(min_y-place_ori.y-(resolution/2+1)).."/"..resolution..", "..(min_z-place_ori.z-(resolution/2+1)).."/"..resolution..", "..(max_x-place_ori.x-(resolution/2)).."/"..resolution..", "..(max_y-place_ori.y-(resolution/2)).."/"..resolution..", "..(max_z-place_ori.z-(resolution/2)).."/"..resolution.."},"
-      print(node_box_string[node_num])
+      node_box_string[node_num] = "{"..(min_x-place_ori.x-(resolution/2+1)).."/"..resolution..", "..(min_y-place_ori.y-(resolution/2+1)).."/"..resolution..", "..(min_z-place_ori.z-(resolution/2+1)).."/"..resolution..", "..(max_x-place_ori.x-(resolution/2)).."/"..resolution..", "..(max_y-place_ori.y-(resolution/2)).."/"..resolution..", "..(max_z-place_ori.z-(resolution/2)).."/"..resolution.."},"
+      minetest.chat_send_player(player_name,"[Nodeboxer] position 2 set "..node_box_string[node_num])
       place_one = nil
       place_two = nil
       for x=min_x, max_x, 1 do
@@ -160,325 +215,19 @@ minetest.register_node("nodeboxer:paint", {
   pointable = true,
   walkable = false,
 	climbable = true,
-  after_destruct = function(pos)
-    minetest.set_node(pos, {name = "nodeboxer:grid"})
-  end,
 })
-
-local node_boxes = {
-  {
-    {-8/16, -8/16, -8/16, -7/16, 7/16, -7/16},
-    {-8/16, 7/16, -8/16, 8/16, 8/16, 8/16},
-    {7/16, -8/16, 7/16, 8/16, 7/16, 8/16},
-    {-8/16, -8/16, 7/16, -7/16, 7/16, 8/16},
-    {7/16, -8/16, -8/16, 8/16, 7/16, -7/16},
-    {-7/16, 5/16, -8/16, 7/16, 6/16, -7/16},
-    {-8/16, 5/16, -7/16, -7/16, 6/16, 7/16},
-    {-7/16, 5/16, 7/16, 7/16, 6/16, 8/16},
-    {7/16, 5/16, -7/16, 8/16, 6/16, 7/16},
-  },
-  {--table
-    {-8/16, -8/16, -8/16, -6/16, 6/16, -6/16},
-    {-8/16, -8/16, 6/16, -6/16, 6/16, 8/16},
-    {6/16, -8/16, 6/16, 8/16, 6/16, 8/16},
-    {6/16, -8/16, -8/16, 8/16, 6/16, -6/16},
-    {-8/16, 6/16, -8/16, 8/16, 8/16, 8/16},
-  },
-  {
-    {-8/16, -1/16, -8/16, 8/16, 1/16, 8/16},
-    {-8/16, -8/16, -8/16, -6/16, -1/16, -6/16},
-    {-8/16, -8/16, 6/16, -6/16, -1/16, 8/16},
-    {6/16, -8/16, 6/16, 8/16, -1/16, 8/16},
-    {6/16, -8/16, -8/16, 8/16, -1/16, -6/16}
-  },
-
-  {
-    
-    {-8/16, -3/16, -5/16, 8/16, -2/16, 5/16},
-    {7/16, -8/16, -5/16, 8/16, -3/16, -4/16},
-    {7/16, -8/16, 4/16, 8/16, -3/16, 5/16},
-    {-8/16, -8/16, 4/16, -7/16, -3/16, 5/16},
-    {-8/16, -8/16, -5/16, -7/16, -3/16, -4/16},
-    {-7/16, -6/16, -4/16, 7/16, -5/16, 4/16},
-  },
-  {
-    {-8/16, 2/16, -8/16, -4/16, 3/16, 8/16},
-    {-8/16, 3/16, -6/16, -5/16, 7/16, -4/16},
-    {-8/16, 3/16, -4/16, -6/16, 6/16, -3/16},
-    {-8/16, 3/16, -3/16, -4/16, 7/16, -2/16},
-    {-8/16, 3/16, -2/16, -5/16, 7/16, -1/16},
-    {-8/16, 3/16, -1/16, -4/16, 8/16, 0/16},
-    {-8/16, 3/16, 0/16, -5/16, 6/16, 2/16},
-    {-8/16, 3/16, 2/16, -5/16, 7/16, 3/16},
-    {-8/16, 3/16, 3/16, -6/16, 6/16, 4/16},
-    {-8/16, 3/16, 4/16, -5/16, 6/16, 6/16},
-  },
-  {
-    {-8/16, 2/16, -8/16, -4/16, 3/16, 8/16},
-  },
-  {
-    {7/16, -8/16, -2/16, 8/16, 8/16, 2/16},
-    {4/16, -8/16, -2/16, 7/16, -7/16, 2/16},
-    {4/16, -4/16, -2/16, 7/16, -3/16, 2/16},
-    {4/16, 0/16, -2/16, 7/16, 1/16, 2/16},
-    {4/16, 4/16, -2/16, 7/16, 5/16, 2/16},
-  },
-  {
-    {-8/16, -8/16, -8/16, -6/16, 6/16, 8/16},
-    {-8/16, 6/16, -8/16, 8/16, 8/16, 8/16},
-  },
-  {
-    {-8/16, 6/16, -8/16, 8/16, 8/16, 8/16},
-  },
-  {
-    {-8/16, -8/16, -8/16, -7/16, 8/16, 8/16},
-    {-7/16, 7/16, -8/16, 8/16, 8/16, 8/16},
-    {0/16, -8/16, -8/16, 1/16, 7/16, 8/16},
-    {-7/16, -1/16, -8/16, 8/16, 0/16, 8/16},
-  },
-  {
-    {-1/16, -6/16, -8/16, 1/16, 6/16, -7/16},
-    {-1/16, 6/16, -7/16, 1/16, 7/16, -6/16},
-    {-1/16, 7/16, -6/16, 1/16, 8/16, 6/16},
-    {-1/16, 6/16, 6/16, 1/16, 7/16, 7/16},
-    {-1/16, -6/16, 7/16, 1/16, 6/16, 8/16},
-    {-4/16, -6/16, 7/16, 4/16, -4/16, 8/16},
-    {3/16, -7/16, 7/16, 5/16, -5/16, 8/16},
-    {3/16, -8/16, 7/16, 5/16, -7/16, 8/16},
-    {-5/16, -7/16, 7/16, -3/16, -5/16, 8/16},
-    {-5/16, -8/16, 7/16, -3/16, -7/16, 8/16},
-    {-4/16, -6/16, -8/16, 4/16, -4/16, -7/16},
-    {3/16, -7/16, -8/16, 5/16, -5/16, -7/16},
-    {3/16, -8/16, -8/16, 5/16, -7/16, -7/16},
-    {-5/16, -7/16, -8/16, -3/16, -5/16, -7/16},
-    {-5/16, -8/16, -8/16, -3/16, -7/16, -7/16},
-    {-1/16, 8/16, -6/16, 1/16, 9/16, -5/16},
-    {-1/16, 8/16, 5/16, 1/16, 9/16, 6/16},
-  },
-  {
-    {-1/16, -8/16, -3/16, 1/16, -7/16, 3/16},
-    {-3/16, -8/16, -1/16, 3/16, -7/16, 1/16},
-    {-2/16, -8/16, -2/16, 2/16, -7/16, 2/16},
-    {-1/16, -7/16, -1/16, 1/16, -6/16, 1/16},
-  },
-  {
-    {2/16, 0/16, -2/16, 5/16, 1/16, 2/16},
-    {1/16, 0/16, -1/16, 2/16, 1/16, 1/16},
-    {-1/16, -1/16, -1/16, 1/16, 0/16, 1/16},
-    {-2/16, -2/16, -1/16, -1/16, -1/16, 0/16},
-    {-2/16, -2/16, -1/16, -1/16, -1/16, 1/16},
-    {-3/16, -4/16, -1/16, -2/16, -2/16, 1/16},
-    {-4/16, -5/16, -1/16, -3/16, -4/16, 1/16},
-    {-4/16, -7/16, -1/16, -3/16, -4/16, 1/16},
-    {-5/16, -8/16, -1/16, -4/16, -6/16, 1/16},
-    {-7/16, -8/16, -1/16, -1/16, -7/16, 1/16},
-    {-5/16, -8/16, -3/16, -3/16, -7/16, 3/16},
-    {-6/16, -8/16, -2/16, -2/16, -7/16, 2/16},
-  },
-  {--plate and knives
-    {1/16, -8/16, -1/16, 2/16, -7/16, 1/16},
-    {-1/16, -8/16, 1/16, 1/16, -7/16, 2/16},
-    {-2/16, -8/16, -1/16, -1/16, -7/16, 1/16},
-    {-1/16, -8/16, -2/16, 1/16, -7/16, -1/16},
-    {-3/16, -7/16, -3/16, 3/16, -6/16, 3/16},
-    {-3/16, -6/16, 3/16, 3/16, -5/16, 4/16},
-    {3/16, -6/16, -3/16, 4/16, -5/16, 3/16},
-    {-3/16, -6/16, -4/16, 3/16, -5/16, -3/16},
-    {-4/16, -6/16, -3/16, -3/16, -5/16, 3/16},
-    {-5/16, -8/16, 4/16, -4/16, -7/16, 8/16},
-    {-7/16, -8/16, 4/16, -6/16, -7/16, 8/16},
-    {5/16, -8/16, -4/16, 6/16, -7/16, 5/16},
-    {4/16, -8/16, 5/16, 7/16, -7/16, 8/16},
-    {-6/16, -8/16, -4/16, -5/16, -7/16, 5/16},
-  },
-  {--tulip
-    {-1/16, -8/16, -2/16, 1/16, -3/16, 0/16}, 
-    {-3/16, -3/16, -2/16, 3/16, -2/16, 0/16},
-    {-1/16, -3/16, -4/16, 1/16, -2/16, 2/16},
-    {-3/16, -2/16, -2/16, -2/16, 0/16, 0/16},
-    {-1/16, -2/16, 1/16, 1/16, 0/16, 2/16},
-    {2/16, -2/16, -2/16, 3/16, 0/16, 0/16},
-    {-1/16, -2/16, -4/16, 1/16, 0/16, -3/16},
-    {-1/16, 0/16, -3/16, 1/16, 1/16, -2/16},
-    {-2/16, 0/16, -2/16, -1/16, 1/16, 0/16},
-    {-1/16, 0/16, 0/16, 1/16, 1/16, 1/16},
-    {1/16, 0/16, -2/16, 2/16, 1/16, 0/16},
-    {-1/16, -2/16, -2/16, 1/16, -1/16, 0/16},
-  },
-  {--bonsai sapling
-    {-1/16, -8/16, -1/16, 1/16, 0/16, 1/16},
-    {0/16, -1/16, -2/16, 2/16, 0/16, 2/16},
-    {-2/16, -2/16, -2/16, 2/16, -1/16, 0/16},
-    {-2/16, -3/16, -2/16, 0/16, -2/16, 2/16},
-    {-2/16, -4/16, 0/16, 0/16, -3/16, 2/16},
-    {0/16, -2/16, 0/16, 2/16, -1/16, 2/16},
-  },
-  {--simple button
-    {-2/16, -2/16, 7/16, 2/16, 2/16, 8/16},
-    {-1/16, -1/16, 6/16, 1/16, 1/16, 7/16},
-  },
-  {--simple buton pressed
-    {-2/16, -2/16, 7/16, 2/16, 2/16, 8/16},
-  },
-  {--grid
-    {-5/12, -6/12, -6/12, -4/12, -5/12, 6/12},
-    {-2/12, -6/12, -6/12, -1/12, -5/12, 6/12},
-    {1/12, -6/12, -6/12, 2/12, -5/12, 6/12},
-    {4/12, -6/12, -6/12, 5/12, -5/12, 6/12},
-    {-6/12, -6/12, -5/12, 6/12, -5/12, -4/12},
-    {-6/12, -6/12, -2/12, 6/12, -5/12, -1/12},
-    {-6/12, -6/12, 1/12, 6/12, -5/12, 2/12},
-    {-6/12, -6/12, 4/12, 6/12, -5/12, 5/12},
-  },
-  {--speakers
-    {-2/16, -8/16, -3/16, 2/16, -7/16, 3/16},
-    {1/16, -7/16, -3/16, 2/16, -1/16, 3/16},
-    {-2/16, -7/16, -3/16, -1/16, -1/16, 3/16},
-    {-1/16, -2/16, -3/16, 1/16, -1/16, 3/16},
-    {-1/16, -7/16, -2/16, 1/16, -2/16, -1/16},
-    {-1/16, -5/16, 2/16, 1/16, -3/16, 3/16},
-    {0/16, -8/16, -6/16, 1/16, -7/16, -3/16},
-    {1/16, -8/16, -6/16, 2/16, -7/16, -5/16},
-    {2/16, -8/16, -7/16, 3/16, -7/16, -6/16},
-    {3/16, -8/16, -8/16, 4/16, -7/16, -7/16},
-  },
-  {--lack tafeltje
-    {-8/16, -1/16, -8/16, 8/16, 0/16, 8/16},
-    {7/16, -8/16, 7/16, 8/16, -1/16, 8/16},
-    {-8/16, -8/16, 7/16, -7/16, -1/16, 8/16},
-    {-8/16, -8/16, -8/16, -7/16, -1/16, -7/16},
-    {7/16, -8/16, -8/16, 8/16, -1/16, -7/16},
-  },
-  {--chair
-    {-7/16, -8/16, -7/16, -6/16, -6/16, -6/16},
-    {6/16, -8/16, -7/16, 7/16, -6/16, -6/16},
-    {6/16, -8/16, 6/16, 7/16, -6/16, 7/16},
-    {-7/16, -8/16, 6/16, -6/16, -6/16, 7/16},
-    {-7/16, -6/16, -7/16, 7/16, -3/16, 7/16},
-    {5/16, -3/16, -7/16, 7/16, 1/16, 4/16},
-    {-7/16, -3/16, -7/16, -5/16, 1/16, 4/16},
-    {-7/16, -3/16, 4/16, 7/16, 6/16, 7/16},
-  },
-  {--Expedit wall shelf
-    {-8/16, -8/16, -8/16, 8/16, -6/16, 8/16},
-    {-8/16, 6/16, -8/16, 8/16, 8/16, 8/16},
-    {6/16, -6/16, -8/16, 8/16, 6/16, 8/16},
-    {-8/16, -6/16, -8/16, -6/16, 6/16, 8/16},
-  },
-  {--closer
-    {-3/16, -8/16, 2/16, 3/16, -7/16, 8/16},
-    {-3/16, -7/16, 2/16, -2/16, 8/16, 8/16},
-    {2/16, -7/16, 2/16, 3/16, 8/16, 8/16},
-    {-2/16, -3/16, 2/16, 2/16, -2/16, 8/16},
-    {-2/16, 2/16, 2/16, 2/16, 3/16, 8/16},
-    {-2/16, 7/16, 2/16, 2/16, 8/16, 8/16},
-  },
-  { --lamp
-    {-1/16, -8/16, -3/16, 1/16, -7/16, 3/16},
-    {-3/16, -8/16, -1/16, 3/16, -7/16, 1/16},
-    {-2/16, -8/16, -2/16, 2/16, -7/16, 2/16},
-    {-1/16, -7/16, -1/16, 1/16, 2/16, 1/16},
-    {-2/16, 3/16, -1/16, -1/16, 4/16, 1/16},
-    {-1/16, 3/16, -2/16, 1/16, 4/16, -1/16},
-    {1/16, 3/16, -1/16, 2/16, 4/16, 1/16},
-    {-1/16, 3/16, 1/16, 1/16, 4/16, 2/16},
-    {-1/16, 2/16, 2/16, 1/16, 3/16, 3/16},
-    {-1/16, 1/16, 3/16, 1/16, 2/16, 4/16},
-    {-1/16, 0/16, 4/16, 1/16, 1/16, 5/16},
-    {-3/16, 2/16, -1/16, -2/16, 3/16, 1/16},
-    {-4/16, 1/16, -1/16, -3/16, 2/16, 1/16},
-    {-5/16, 0/16, -1/16, -4/16, 1/16, 1/16},
-    {-1/16, 2/16, -3/16, 1/16, 3/16, -2/16},
-    {-1/16, 1/16, -4/16, 1/16, 2/16, -3/16},
-    {-1/16, 0/16, -5/16, 1/16, 1/16, -4/16},
-    {2/16, 2/16, -1/16, 3/16, 3/16, 1/16},
-    {3/16, 1/16, -1/16, 4/16, 2/16, 1/16},
-    {4/16, 0/16, -1/16, 5/16, 1/16, 1/16},
-    {1/16, 0/16, 1/16, 3/16, 2/16, 3/16},
-    {-3/16, 0/16, 1/16, -1/16, 2/16, 3/16},
-    {-3/16, 0/16, -3/16, -1/16, 2/16, -1/16},
-    {1/16, 0/16, -3/16, 3/16, 2/16, -1/16},
-    {1/16, 2/16, -2/16, 2/16, 3/16, -1/16},
-    {-2/16, 2/16, -2/16, -1/16, 3/16, -1/16},
-    {-2/16, 2/16, 1/16, -1/16, 3/16, 2/16},
-    {1/16, 2/16, 1/16, 2/16, 3/16, 2/16},
-    {-2/16, 0/16, 3/16, -1/16, 1/16, 4/16},
-    {-4/16, 0/16, 1/16, -3/16, 1/16, 2/16},
-    {-4/16, 0/16, -2/16, -3/16, 1/16, -1/16},
-    {-2/16, 0/16, -4/16, -1/16, 1/16, -3/16},
-    {1/16, 0/16, -4/16, 2/16, 1/16, -3/16},
-    {3/16, 0/16, -2/16, 4/16, 1/16, -1/16},
-    {3/16, 0/16, 1/16, 4/16, 1/16, 2/16},
-    {1/16, 0/16, 3/16, 2/16, 1/16, 4/16},
-  },
-  {--urinoir
-    {-4/16, -5/16, 7/16, 3/16, 8/16, 8/16},
-    {-4/16, 7/16, 6/16, 3/16, 8/16, 7/16},
-    {-5/16, -6/16, 6/16, -4/16, 7/16, 7/16},
-    {3/16, -6/16, 6/16, 4/16, 7/16, 7/16},
-    {-5/16, -6/16, 1/16, -4/16, -3/16, 6/16},
-    {3/16, -6/16, 1/16, 4/16, -3/16, 6/16},
-    {-4/16, -6/16, 1/16, 3/16, -5/16, 6/16},
-    {-4/16, -5/16, 5/16, 3/16, -4/16, 7/16},
-    {-4/16, -5/16, 0/16, 3/16, -3/16, 1/16},
-    {-5/16, -3/16, 3/16, -4/16, -1/16, 6/16},
-    {3/16, -3/16, 3/16, 4/16, -1/16, 6/16},
-  },
-  
-  {--other table
-    {-6/16, -8/16, -6/16, -4/16, 7/16, -4/16},
-    {-8/16, 7/16, -8/16, 8/16, 8/16, 8/16},
-    {4/16, -8/16, 4/16, 6/16, 7/16, 6/16},
-    {-6/16, -8/16, 4/16, -4/16, 7/16, 6/16},
-    {4/16, -8/16, -6/16, 6/16, 7/16, -4/16},
-  },
-  {--worm
-    {-1/16, -8/16, 5/16, 3/16, -7/16, 7/16},
-    {-2/16, -8/16, 4/16, 0/16, -7/16, 6/16},
-    {-3/16, -8/16, 1/16, -1/16, -7/16, 5/16},
-    {-2/16, -8/16, 0/16, 0/16, -7/16, 2/16},
-    {-1/16, -8/16, -1/16, 1/16, -7/16, 1/16},
-    {0/16, -8/16, -2/16, 2/16, -7/16, 0/16},
-    {1/16, -8/16, -5/16, 3/16, -7/16, -1/16},
-    {0/16, -8/16, -6/16, 2/16, -7/16, -4/16},
-    {-3/16, -8/16, -7/16, 1/16, -7/16, -5/16},
-
-  },
-  
-  { --coal thing
-    {-2/12, -2/12, -7/12, 2/12, 2/12, -6/12},
-    {-2/12, -2/12, 6/12, 2/12, 2/12, 7/12},
-    {6/12, -2/12, -2/12, 7/12, 2/12, 2/12},
-    {-7/12, -2/12, -2/12, -6/12, 2/12, 2/12},
-    {-6/12, -6/12, -6/12, 6/12, 6/12, 6/12},
-  },
-  {
-    {-1/16, -1/16, -3/16, 1/16, 0/16, 3/16},
-    {-3/16, -1/16, -1/16, 3/16, 0/16, 1/16},
-    {-2/16, -1/16, -2/16, 2/16, 0/16, 2/16},
-    {-2/16, -4/16, -1/16, 2/16, -3/16, 1/16},
-    {-1/16, -4/16, -2/16, 1/16, -3/16, 2/16},
-    {-1/16, -8/16, -1/16, 1/16, 1/16, 1/16},
-  }
-  
-}
-
-for i, nodebox in ipairs(node_boxes) do
-  minetest.register_node("nodeboxer:test_"..i, {
-    drawtype = "nodebox",
-    paramtype2 = "facedir",
-    description = "Debug: "..i,
-    paramtype = "light",
-    groups = {dig_immediate=3,not_in_creative_inventory=1},
-    tiles = {"wool_blue.png"},
-    node_box = { --VanessaE's wild hive nodebox contribution
-      type = "fixed",
-      fixed = nodebox,
-    }
-  })
-end
-
-
+--update generation before generating
+local file = minetest.get_modpath("nodeboxer").."/nodeboxes"
+local f = io.open(file, "r")
+local contents = f:read("*all")
+file = minetest.get_modpath("nodeboxer").."/code"
+f = io.open(file, "r")
+local code = f:read("*all")
+file = minetest.get_modpath("nodeboxer").."/nodeboxes.lua"
+f = io.open(file, "w")
+f:write("local node_boxes ={ "..contents.."}\n"..code)
+f:close()
+dofile(minetest.get_modpath("nodeboxer").."/nodeboxes.lua")
 --crafts
 minetest.register_craft({
   output = 'nodeboxer:draw',
