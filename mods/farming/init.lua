@@ -190,7 +190,7 @@ dofile(minetest.get_modpath("farming").."/soil.lua")
 dofile(minetest.get_modpath("farming").."/hoes.lua")
 
 -- ========= CORN =========
---dofile(minetest.get_modpath("farming").."/wheat.lua")
+dofile(minetest.get_modpath("farming").."/wheat.lua")
 
 -- ========= COTTON =========
 dofile(minetest.get_modpath("farming").."/cotton.lua")

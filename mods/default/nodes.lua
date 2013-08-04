@@ -315,6 +315,7 @@ minetest.register_node("default:cactus", {
 minetest.register_node("default:papyrus", {
 	description = "Papyrus",
 	drawtype = "nodebox",
+	climbable = true,
 	node_box = { 
     type = "fixed",
     fixed = {
@@ -1201,8 +1202,8 @@ minetest.register_node("default:dry_shrub", {
 
 minetest.register_node("default:grass_1", {
 	description = "Grass",
-	drawtype = "plantlike",
-	tiles = {"default_grass_1.png"},
+	drawtype = "nodebox",
+	tiles = {"default_grass.png"},
 	-- use a bigger inventory image
 	inventory_image = "default_grass_3.png",
 	wield_image = "default_grass_3.png",
@@ -1211,6 +1212,10 @@ minetest.register_node("default:grass_1", {
 	buildable_to = true,
 	groups = {snappy=3,flammable=3,flora=1,attached_node=1},
 	sounds = default.node_sound_leaves_defaults(),
+	node_box = {
+		type = "fixed",
+		fixed = {{-1.5/5, -2.5/5, -1.5/5, -0.5/5, -1.5/5, -0.5/5},{-1.5/5, -2.5/5, 0.5/5, -0.5/5, -1.5/5, 1.5/5},{0.5/5, -2.5/5, 0.5/5, 1.5/5, -1.5/5, 1.5/5},{0.5/5, -2.5/5, -1.5/5, 1.5/5, -1.5/5, -0.5/5},},
+	},
 	selection_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
@@ -1219,8 +1224,12 @@ minetest.register_node("default:grass_1", {
 
 minetest.register_node("default:grass_2", {
 	description = "Grass",
-	drawtype = "plantlike",
-	tiles = {"default_grass_2.png"},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {{-1.5/5, -2.5/5, -1.5/5, -0.5/5, -1.5/5, -0.5/5},{0.5/5, -2.5/5, -1.5/5, 1.5/5, -0.5/5, -0.5/5},{0.5/5, -2.5/5, 0.5/5, 1.5/5, -1.5/5, 1.5/5},{-1.5/5, -2.5/5, 0.5/5, -0.5/5, -0.5/5, 1.5/5},{-2.5/5, -1.5/5, -2.5/5, -1.5/5, -0.5/5, -1.5/5},{1.5/5, -1.5/5, 1.5/5, 2.5/5, -0.5/5, 2.5/5},}
+	},
+	tiles = {"default_grass.png"},
 	inventory_image = "default_grass_2.png",
 	wield_image = "default_grass_2.png",
 	paramtype = "light",
@@ -1237,8 +1246,12 @@ minetest.register_node("default:grass_2", {
 })
 minetest.register_node("default:grass_3", {
 	description = "Grass",
-	drawtype = "plantlike",
-	tiles = {"default_grass_3.png"},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {{-1.5/5, -2.5/5, -1.5/5, -0.5/5, -0.5/5, -0.5/5},{-2.5/5, -0.5/5, -2.5/5, -1.5/5, 0.5/5, -1.5/5},{1.5/5, -0.5/5, 1.5/5, 2.5/5, 0.5/5, 2.5/5},{0.5/5, -2.5/5, 0.5/5, 1.5/5, -0.5/5, 1.5/5},{0.5/5, -2.5/5, -1.5/5, 1.5/5, -0.5/5, -0.5/5},{-1.5/5, -2.5/5, 0.5/5, -0.5/5, -0.5/5, 1.5/5},}
+	},
+	tiles = {"default_grass.png"},
 	inventory_image = "default_grass_3.png",
 	wield_image = "default_grass_3.png",
 	paramtype = "light",
@@ -1256,8 +1269,12 @@ minetest.register_node("default:grass_3", {
 
 minetest.register_node("default:grass_4", {
 	description = "Grass",
-	drawtype = "plantlike",
-	tiles = {"default_grass_4.png"},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {{-1.5/5, -2.5/5, -1.5/5, -0.5/5, 0.5/5, -0.5/5},{0.5/5, -2.5/5, -1.5/5, 1.5/5, 0.5/5, -0.5/5},{0.5/5, -2.5/5, 0.5/5, 1.5/5, 0.5/5, 1.5/5},{-1.5/5, -2.5/5, 0.5/5, -0.5/5, 0.5/5, 1.5/5},{-0.5/5, -2.5/5, -0.5/5, 0.5/5, -1.5/5, 0.5/5},}
+	},
+	tiles = {"default_grass.png"},
 	inventory_image = "default_grass_4.png",
 	wield_image = "default_grass_4.png",
 	paramtype = "light",
@@ -1276,7 +1293,11 @@ minetest.register_node("default:grass_4", {
 minetest.register_node("default:grass_5", {
 	description = "Grass",
 	damage_per_second = 2,
-	drawtype = "plantlike",
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {{-1.5/5, -2.5/5, -1.5/5, -0.5/5, 1.5/5, -0.5/5},{-0.5/5, -2.5/5, -0.5/5, 0.5/5, -1.5/5, 0.5/5},{0.5/5, -2.5/5, -1.5/5, 1.5/5, 0.5/5, -0.5/5},{1.5/5, 0.5/5, -2.5/5, 2.5/5, 1.5/5, -1.5/5},{-2.5/5, 0.5/5, 1.5/5, -1.5/5, 1.5/5, 2.5/5},{-1.5/5, -2.5/5, 0.5/5, -0.5/5, 0.5/5, 1.5/5},{0.5/5, -2.5/5, 0.5/5, 1.5/5, 1.5/5, 1.5/5},{-2.5/5, 1.5/5, -2.5/5, -1.5/5, 2.5/5, -1.5/5},{1.5/5, 1.5/5, 1.5/5, 2.5/5, 2.5/5, 2.5/5},}
+	},
 	tiles = {"default_grass_5.png"},
 	inventory_image = "default_grass_5.png",
 	wield_image = "default_grass_5.png",
