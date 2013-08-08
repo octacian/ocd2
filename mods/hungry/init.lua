@@ -22,7 +22,7 @@ if hunger.enabled then
     minetest.after(distance_interval, function()
       hunger.update(player,pos_two)
     end)
-    hunger[name] = hunger[name] + (math.hypot(pos_one.x-pos_two.x, pos_one.y-pos_two.y)+math.abs(pos_one.y-pos_two.y))*hunger_per_meter
+    hunger[name] = hunger[name] + vector.distance(pos_one,pos_two)*hunger_per_meter
     if hunger[name] >= 1 then
       local inv = player:get_inventory()
       if inv:contains_item("main", "default:apple") then

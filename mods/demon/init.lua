@@ -39,7 +39,6 @@ minetest.register_abm({ --remove bees
 		      minetest.remove_node(pos)
 		      minetest.sound_play({name="demon_remove"},{pos=newpos, max_hear_distance=32, gain=1})
 		    end
-		    print(node.param2..face)
 		    if node.param2 ~= face then
 		      minetest.set_node(pos, {name=node.name, param2 = face} )
 		    end
