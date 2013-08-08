@@ -187,7 +187,7 @@ minetest.register_node("default:clay", {
 
 minetest.register_node("default:brick", {
 	description = "Brick Block",
-	tiles = {"default_brick.png"},
+	tiles = {"default_brick.png^[transformFYR270", "default_brick.png"},
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
 })
@@ -505,6 +505,7 @@ minetest.register_node("default:lava_flowing", {
 		},
 	},
 	paramtype = "light",
+	paramtype2 = "flowingliquid",
 	light_source = LIGHT_MAX - 1,
 	walkable = false,
 	pointable = false,
@@ -574,7 +575,7 @@ minetest.register_node("default:torch", {
 	light_source = LIGHT_MAX-3,
 	node_box = mesecon_lamp_box,
 	selection_box = mesecon_lamp_box,
-	groups = {dig_immediate=3,not_in_creative_inventory=1, mesecon_effector_on = 1},
+	groups = {attached_node=1, dig_immediate=3,not_in_creative_inventory=1, mesecon_effector_on = 1},
 	drop='"default:torch" 1',
 	sounds = default.node_sound_glass_defaults(),
 })
@@ -1147,10 +1148,6 @@ minetest.register_node("default:sapling", {
 	tiles = {"default_sapling.png"},
 	paramtype = "light",
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 0.35, 0.3}
-	},
 	groups = {snappy=2,dig_immediate=3,flammable=2,attached_node=1},
 	sounds = default.node_sound_leaves_defaults(),
 })

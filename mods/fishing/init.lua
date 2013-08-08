@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------------
 local title		= "Fishing - Mossmanikin's version"
-local version 	= "0.1.0"
+local version 	= "0.1.2"
 local mname		= "fishing"
 -----------------------------------------------------------------------------------------------
 -- original by wulfsdad (http://forum.minetest.net/viewtopic.php?id=4375)
@@ -14,10 +14,15 @@ local mname		= "fishing"
 
 -- todo: 	item wear 											done
 --			automatic re-baiting option 						done
---			different types of fish/sushi, 						sort of
+--			different types of fish, 							sort of
 --			add sound											done
 --			bobber												done
 --			change rainworms filling inv & make 'em disappear 	done
+
+--			placable fishing rod for decoration					done
+--			make bobber move slowly while fish on hook			done
+-- 			catch bigger fish with smaller
+--			change color of bobber when fish on hook			done
 
 -----------------------------------------------------------------------------------------------
 
@@ -37,6 +42,7 @@ local function rod_wear(itemstack, user, pointed_thing, uses)
 end
 
 minetest.register_tool("fishing:pole", {
+
 	description = "Fishing Pole",
 	groups = {},
 	inventory_image = "fishing_pole.png",
@@ -68,8 +74,124 @@ minetest.register_tool("fishing:pole", {
 		end
 		return nil
 	end,
+	on_place = function(itemstack, placer, pointed_thing)
+		local pt = pointed_thing
+		if minetest.get_node(pt.under).name~="default:water_source" and minetest.get_node(pt.under).name~="default:water_flowing" then
+			local wear = itemstack:get_wear()
+			local direction = minetest.dir_to_facedir(placer:get_look_dir())
+			local meta1 = minetest.env:get_meta({x=pt.under.x, y=pt.under.y  , z=pt.under.z})
+			local meta2 = minetest.env:get_meta({x=pt.under.x, y=pt.under.y+1, z=pt.under.z})
+			minetest.set_node({x=pt.under.x, y=pt.under.y+1, z=pt.under.z}, {name="fishing:pole_deco", param2=direction})
+			meta1:set_int("wear", wear)
+			meta2:set_int("wear", wear)
+			itemstack:take_item()
+		end
+		return itemstack
+	end,
 })
 
+if SIMPLE_DECO_FISHING_POLE == true then
+minetest.register_node("fishing:pole_deco", {
+	description = "Fishing Pole",
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	tiles = {
+		"fishing_pole_top.png", "fishing_pole_bottom.png", "fishing_pole.png", "fishing_pole.png^[transformFX", "fishing_pole_front.png", "fishing_pole_back.png",
+	},
+	groups = {
+		snappy=3,
+		flammable=2,
+		not_in_creative_inventory=1
+	},
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5/3, -1.5/3, -1.5/3, 0.5/3, -0.5/3, -0.5/3},{-0.5/3, -0.5/3, -0.5/3, 0.5/3, 0.5/3, 0.5/3},{-0.5/3, 0.5/3, 0.5/3, 0.5/3, 1.5/3, 1.5/3},{-0.5/3, -1.5/3, 0.5/3, 0.5/3, 0.5/3, 1.5/3},
+		}
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5/3, -1.5/3, -1.5/3, 0.5/3, -0.5/3, -0.5/3},{-0.5/3, -0.5/3, -0.5/3, 0.5/3, 0.5/3, 0.5/3},{-0.5/3, 0.5/3, 0.5/3, 0.5/3, 1.5/3, 1.5/3},{-0.5/3, -1.5/3, 0.5/3, 0.5/3, 0.5/3, 1.5/3},
+		}
+	},
+	sounds = default.node_sound_wood_defaults(),
+	on_dig = function(pos, node, digger)
+		if digger:is_player() and digger:get_inventory() then
+			local meta = minetest.env:get_meta(pos)
+			local wear_out = meta:get_int("wear")
+			digger:get_inventory():add_item("main", {name="fishing:pole", count=1, wear=wear_out, metadata=""})
+		end
+		minetest.remove_node(pos)
+	end,
+})
+
+else
+minetest.register_node("fishing:pole_deco", {
+	description = "Fishing Pole",
+	inventory_image = "fishing_pole.png",
+	wield_image = "fishing_pole.png^[transformFXR270",
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	tiles = {
+		"fishing_pole_top.png",
+		"fishing_pole_bottom.png",
+		"fishing_pole_deco.png", -- right
+		"fishing_pole_deco.png^[transformFX", -- left
+		"fishing_pole_back.png",
+		"fishing_pole_front.png"
+	},
+	node_box = {
+		type = "fixed",
+--			{ left	, bottom , front  ,  right ,  top   ,  back  }
+		fixed = {
+			{-1/32  , -1/16  , 14/16  , 1/32   ,  6/16  , 15/16},
+			{-1/32  , -3/16  , 13/16  , 1/32   , -1/16  , 14/16},
+			{-1/32  , -4/16  , 12/16  , 1/32   , -3/16  , 13/16},
+			{-1/32  , -5/16  , 11/16  , 1/32   , -4/16  , 12/16},
+			{-1/32  , -6/16  ,  9/16  , 1/32   , -5/16  , 11/16},
+			{-1/32  , -5/16  ,  9/16  , 1/32   , -4/16  , 10/16},
+			-- stick
+			{-1/32  ,  6/16  , 12/16  , 1/32   ,  7/16  , 15/16}, -- top
+			{-1/32  ,  5/16  , 11/16  , 1/32   ,  7/16  , 12/16},
+			{-1/32  ,  5/16  , 10/16  , 1/32   ,  6/16  , 11/16},
+			{-1/32  ,  4/16  ,  9/16  , 1/32   ,  6/16  , 10/16},
+			{-1/32  ,  3/16  ,  8/16  , 1/32   ,  5/16  ,  9/16},
+			{-1/32  ,  2/16  ,  7/16  , 1/32   ,  4/16  ,  8/16},
+			{-1/32  ,  1/16  ,  6/16  , 1/32   ,  3/16  ,  7/16},
+			{-1/32  ,  0     ,  5/16  , 1/32   ,  2/16  ,  6/16},
+			{-1/32  , -2/16  ,  4/16  , 1/32   ,  1/16  ,  5/16},
+			{-1/32  , -3/16  ,  3/16  , 1/32   ,  0     ,  4/16},
+			{-1/32  , -5/16  ,  2/16  , 1/32   , -1/16  ,  3/16},
+			{-1/32  , -7/16  ,  1/16  , 1/32   , -3/16  ,  2/16},
+			{-1/32  , -1/2   ,  0     , 1/32   , -5/16  ,  1/16}, -- bottom
+		}
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-1/16  , -1/2   ,  0     , 1/16   ,  1/2   ,  1   },
+		}
+	},
+	groups = {
+		snappy=3,
+		flammable=2,
+		not_in_creative_inventory=1
+	},
+	sounds = default.node_sound_wood_defaults(),
+	on_dig = function(pos, node, digger)
+		if digger:is_player() and digger:get_inventory() then
+			local meta = minetest.env:get_meta(pos)
+			local wear_out = meta:get_int("wear")
+			digger:get_inventory():add_item("main", {name="fishing:pole", count=1, wear=wear_out, metadata=""})
+		end
+		minetest.remove_node(pos)
+	end,
+})
+
+end
 -----------------------------------------------------------------------------------------------
 -- GETTING WORMS
 -----------------------------------------------------------------------------------------------
@@ -86,7 +208,7 @@ minetest.register_node(":default:dirt", {
  		if math.random(1, 100) < WORM_CHANCE then
 			local tool_in_use = digger:get_wielded_item():get_name()
 			if tool_in_use == "" or tool_in_use == "default:dirt" then
-				minetest.env:add_entity({x = pos.x, y = pos.y-0.6, z = pos.z}, "fishing:bait_worm_entity")
+				minetest.env:add_entity({x = pos.x, y = pos.y+0.4, z = pos.z}, "fishing:bait_worm_entity")
 				--local inv = digger:get_inventory()
  				--if inv:room_for_item("main", {name="fishing:bait_worm", count=1, wear=0, metadata=""}) then
  					--inv:add_item("main", {name="fishing:bait_worm", count=1, wear=0, metadata=""})

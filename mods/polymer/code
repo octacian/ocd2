@@ -1,0 +1,17 @@
+for i, nodebox in ipairs(node_boxes) do
+  local name = "polymer:item_"..i
+  polymer.node_amount = polymer.node_amount + 1
+  minetest.register_node(name, {
+    drawtype = "nodebox",
+    paramtype2 = "facedir",
+    description = "Plastic Item #"..i,
+    paramtype = "light",
+    groups = {dig_immediate=3, polymer=3, not_in_creative_inventory=1},
+    tiles = {"wool_red.png"},
+    node_box = {
+      type = "fixed",
+      fixed = nodebox,
+    }
+  })
+  polymer.registered_nodes[i] = name
+end

@@ -70,8 +70,12 @@ minetest.register_node("bees:hive_artificial", {
   node_box = {
     type = "fixed",
     fixed = {
-      {-4/8, 3/8, -4/8, 4/8, 4/8, 4/8},
-      {-3/8, -4/8, -3/8, 3/8, 3/8, 3/8},
+      {-4/8, 2/8, -4/8, 4/8, 3/8, 4/8},
+      {-3/8, -4/8, -2/8, 3/8, 2/8, 3/8},
+      {-3/8, 0/8, -3/8, 3/8, 2/8, -2/8},
+      {-3/8, -4/8, -3/8, 3/8, -1/8, -2/8},
+      {-3/8, -1/8, -3/8, -1/8, 0/8, -2/8},
+      {1/8, -1/8, -3/8, 3/8, 0/8, -2/8},
     }
   },
   on_construct = function(pos)
@@ -174,6 +178,7 @@ minetest.register_abm({ --for particles and sounds
 
 minetest.register_abm({ --spawn abm
   nodenames = {"group:leafdecay"},
+  neighbors = {"default:apple"},
   interval = 1800,
   chance = 500,
   action = function(pos, node, _, _)

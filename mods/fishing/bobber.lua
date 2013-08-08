@@ -1,7 +1,5 @@
 -----------------------------------------------------------------------------------------------
--- Fishing - Mossmanikin's version - Bobber 0.0.9
--- original by wulfsdad (http://forum.minetest.net/viewtopic.php?id=4375)
--- this version by Mossmanikin
+-- Fishing - Mossmanikin's version - Bobber 0.1.0
 -- License (code & textures): 	WTFPL
 -- Contains code from: 		fishing (original), mobs, throwing
 -- Supports:				animal_clownfish, animal_fish_blue_white, animal_rat, mobs
@@ -33,6 +31,19 @@ minetest.register_node("fishing:bobber_box", {
 		}
 	},
 	tiles = {"fishing_bobber.png"},
+	groups = {not_in_creative_inventory=1},
+})
+
+minetest.register_node("fishing:bobber_box_ready", {
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+--			{ left	, bottom , front  ,  right ,  top   ,  back  }
+			{-0.0625, -0.6875, -0.0625,  0.0625, -0.5625,  0.0625},	
+		}
+	},
+	tiles = {"fishing_bobber_ready.png"},
 	groups = {not_in_creative_inventory=1},
 })
 
@@ -257,6 +268,11 @@ local FISHING_BOBBER_ENTITY={
 					pos = self.object:getpos(),
 					gain = 0.5,
 				})
+				if BOBBER_COLOR_CHANGE == true then
+					self.object:set_properties({
+						textures = {"fishing:bobber_box_ready"},
+					})
+				end
 				self.object:moveto({x=pos.x,y=pos.y-0.0625,z=pos.z})
 			elseif self.object:get_hp() == 295 then
 				self.object:moveto({x=pos.x,y=pos.y+0.0625,z=pos.z})
@@ -264,7 +280,9 @@ local FISHING_BOBBER_ENTITY={
 				self.object:moveto({x=pos.x,y=pos.y+0.0625,z=pos.z})
 			elseif self.object:get_hp() == 285 then
 				self.object:moveto({x=pos.x,y=pos.y-0.0625,z=pos.z})
-			elseif self.object:get_hp() == 160 then
+			elseif self.object:get_hp() < 284 then	
+				self.object:moveto({x=pos.x+(0.001*(math.random(-8, 8))),y=pos.y,z=pos.z+(0.001*(math.random(-8, 8)))})
+			elseif self.object:get_hp() == 0 then
 				minetest.sound_play("fishing_bobber1", {
 					pos = self.object:getpos(),
 					gain = 0.5,

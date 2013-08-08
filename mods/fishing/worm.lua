@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------
--- Fishing - Mossmanikin's version - Worm 0.0.1
+-- Fishing - Mossmanikin's version - Worm 0.0.2
 -----------------------------------------------------------------------------------------------
 -- License (code & textures): 	WTFPL
 -- Contains code from: 		fishing (original), mobs
@@ -16,7 +16,7 @@ minetest.register_craftitem("fishing:bait_worm", {
 	on_use = minetest.item_eat(1),
 	on_place = function(itemstack, placer, pointed_thing)
 		local pt = pointed_thing
-		minetest.env:add_entity({x=pt.under.x, y=pt.under.y+0.4, z=pt.under.z}, "fishing:bait_worm_entity")
+		minetest.env:add_entity({x=pt.under.x, y=pt.under.y+0.6, z=pt.under.z}, "fishing:bait_worm_entity")
 		itemstack:take_item()
 		return itemstack
 	end,
@@ -80,7 +80,7 @@ minetest.register_entity("fishing:bait_worm_entity", {
 			
 			elseif minetest.get_item_group(n.name, "soil") ~= 0 then
 				if minetest.get_item_group(minetest.env:get_node({x=pos.x,y=pos.y-0.1,z=pos.z}).name, "soil") == 0 and self.object:get_hp() > 200 then
-					self.object:get_hp(199)
+					self.object:set_hp(199)
 				elseif self.object:get_hp() > 200 then -- leave dirt to see whats going on
 					self.object:moveto({x=pos.x+(0.001*(math.random(-2, 2))),y=pos.y+0.003,z=pos.z+(0.001*(math.random(-2, 2)))})
 				elseif self.object:get_hp() < 199 then -- no rain here, let's get outa here

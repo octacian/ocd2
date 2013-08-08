@@ -122,19 +122,6 @@ stairsplus.register_stair_and_slab_and_panel_and_micro("stairsplus", "desert_sto
 		"desert_stone",
 		default.node_sound_stone_defaults()
 		)
-		
-stairsplus.register_stair_and_slab_and_panel_and_micro("stairsplus", "glass", "default:glass",
-		{cracky=3,oddly_breakable_by_hand=3, not_in_creative_inventory=1},
-		{"default_glass.png"},
-		"Glass Stairs",
-		"Glass Corner",
-		"Glass Slab",
-		"Glass Wall",
-		"Glass Panel",
-		"Glass Microblock",
-		"glass",
-		default.node_sound_glass_defaults(),
-		true)
 
 --[[
 stairsplus.register_stair_and_slab_and_panel_and_micro("stairsplus", "tree", "default:tree",
@@ -173,5 +160,5 @@ stairsplus.register_stair_and_slab_and_panel_and_micro("stairsplus", "copperbloc
 		default.node_sound_stone_defaults()
 		)
 		
-stairsplus.register_stair("stairsplus", "gravel", "default:gravel", {crumbly=2, falling_node=1}, {"default_gravel.png"}, "Gravel Stair", "gravel", default.node_sound_dirt_defaults(), false)
-stairsplus.register_slab( "stairsplus", "gravel", "default:gravel", {crumbly=2, falling_node=1}, {"default_gravel.png"}, "Gravel Slab", "gravel", default.node_sound_dirt_defaults(), false)
+stairsplus.register_stair("stairsplus", "gravel", "default:gravel", {crumbly=2, falling_node=1, not_in_creative_inventory=1}, {"default_gravel.png"}, "Gravel Stair", "gravel", default.node_sound_dirt_defaults(), false)
+stairsplus.register_slab( "stairsplus", "gravel", "default:gravel", {crumbly=2, falling_node=1, not_in_creative_inventory=1}, {"default_gravel.png"}, "Gravel Slab", "gravel", default.node_sound_dirt_defaults(), false)

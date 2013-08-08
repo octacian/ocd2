@@ -434,8 +434,9 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'default:brick',
 	recipe = {
-		{'default:clay_brick', 'default:clay_brick'},
-		{'default:clay_brick', 'default:clay_brick'},
+		{'default:clay_brick', 'default:clay_brick', 'default:stone'},
+		{'default:clay_brick', 'default:clay_brick', 'default:stone'},
+		{'default:stone','default:stone',''}
 	}
 })
 
