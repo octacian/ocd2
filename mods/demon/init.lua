@@ -29,6 +29,7 @@ minetest.register_abm({ --remove bees
         local dist = vector.distance(s,p)
         if dist < range then
           meta:set_string("player", player:get_player_name())
+          return
         end
       end
     end
