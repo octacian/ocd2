@@ -22,7 +22,6 @@ minetest.register_abm({ --remove bees
     local meta = minetest.get_meta(pos)
     local range = 15
     local player = meta:get_string("player")
-    print(player)
     if player == nil or player == "" then
       for _,player in pairs(minetest.get_connected_players()) do
         local s = pos
@@ -36,8 +35,6 @@ minetest.register_abm({ --remove bees
     
     local player = meta:get_string("player")
     if player == nil or player == "" then return end
-    print(player)
-    
 	  local name = player
 	  local player = minetest.get_player_by_name(player)
 	  local posp = player:getpos()
