@@ -38,6 +38,7 @@ minetest.register_abm({ --remove bees
     if player == nil or player == "" then return end
 	  local name = player
 	  local player = minetest.get_player_by_name(player)
+	  if player == nil or player == "" then return end
 	  local posp = player:getpos()
 	  local newpos = {x = (pos.x + posp.x) / 2, y = (pos.y + posp.y) / 2 +1, z = (pos.z + posp.z) / 2}
 	  local face = minetest.dir_to_facedir(vector.direction(pos, newpos), false)

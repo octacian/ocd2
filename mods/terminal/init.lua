@@ -38,6 +38,8 @@ minetest.register_node("terminal:client_on", {
     meta:set_string("command", "")
   end,
   on_receive_fields = function(pos, formname, fields, sender)
+    local privs = minetest.get_player_privs(sender:get_player_name())
+    if ( privs == nil or not privs["terminal"] ) then return "You do not have terminal privs" end
     local meta = minetest.get_meta(pos)
     local command = fields.text
     meta:set_string("command",  command)
@@ -52,6 +54,8 @@ minetest.register_node("terminal:client_on", {
     end
   end,
   on_punch = function (pos, node, puncher)
+    local privs = minetest.get_player_privs(puncher:get_player_name())
+    if ( privs == nil or not privs["terminal"] ) then return "You do not have terminal privs" end
     local meta = minetest.env:get_meta(pos)
     local command = meta:get_string("command")
     local player = puncher:get_player_name()
@@ -107,9 +111,10 @@ function terminal_command(command, sender, pos)
     meta:set_string("channel-out", channel)
     return "> "..command.."\n Terminal channel out has been renamed to "..channel
   end
-  local state = os.execute(command.." > output")
-  local f = io.open("output", "r")
-  os.execute("rm output")
+  local path = minetest.get_modpath("terminal")
+  local state = os.execute(command.." > "..path.."/output")
+  local f = io.open(path.."/output", "r")
+  os.execute("rm "..path.."/output")
   if f then
     local contents = f:read("*all")
     print(contents)
