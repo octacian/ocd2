@@ -20,7 +20,7 @@ minetest.register_abm({ --remove bees
   chance = 1,
   action = function(pos, node, _, _)
     local meta = minetest.get_meta(pos)
-    local range = 15
+    local range = 40
     local player = meta:get_string("player")
     if player == nil or player == "" then
       for _,player in pairs(minetest.get_connected_players()) do
