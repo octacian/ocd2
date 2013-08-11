@@ -307,9 +307,16 @@ minetest.register_node("default:leaves", {
 minetest.register_node("default:cactus", {
 	description = "Cactus",
 	tiles = {"default_cactus_top.png", "default_cactus_top.png", "default_cactus_side.png"},
-	is_ground_content = true,
+	paramtype = "light",
+	drawtype = "nodebox",
 	groups = {snappy=1,choppy=3,flammable=2},
 	sounds = default.node_sound_wood_defaults(),
+	node_box = { 
+    type = "fixed",
+    fixed = {{-1.5/5, -2.5/5, -1.5/5, 1.5/5, 2.5/5, 1.5/5},{-0.5/5, -0.5/5, 1.5/5, 0.5/5, 0.5/5, 2.5/5},{-2.5/5, -0.5/5, -0.5/5, -1.5/5, 0.5/5, 0.5/5},{-0.5/5, -0.5/5, -2.5/5, 0.5/5, 0.5/5, -1.5/5},{1.5/5, -0.5/5, -0.5/5, 2.5/5, 0.5/5, 0.5/5},{1.5/5, -2.5/5, 1.5/5, 2.5/5, -1.5/5, 2.5/5},{-2.5/5, 1.5/5, 1.5/5, -1.5/5, 2.5/5, 2.5/5},{-2.5/5, -2.5/5, -2.5/5, -1.5/5, -1.5/5, -1.5/5},{1.5/5, 1.5/5, -2.5/5, 2.5/5, 2.5/5, -1.5/5},},
+  },
+	
+	
 })
 
 minetest.register_node("default:papyrus", {
