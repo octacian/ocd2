@@ -337,8 +337,6 @@ minetest.register_node("default:papyrus", {
     }
   },
 	tiles = {"default_papyrus.png"},
-	inventory_image = "default_papyrus.png",
-	wield_image = "default_papyrus.png",
 	paramtype = "light",
 	walkable = false,
 	is_ground_content = true,
