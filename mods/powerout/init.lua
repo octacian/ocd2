@@ -156,13 +156,13 @@ minetest.register_craft({
   }
 })
 
---[[uncomment to try out powerout mod
+--[[
 minetest.register_abm({
   nodenames = {"default:torch"},
-  interval = 1800,
-  chance = 500,
+  interval = 1,
+  chance = 1,
   action = function(pos, node, _, _)
-    minetest.set_node(pos, {name="powerout:light"})
+    minetest.set_node(pos, {name="powerout:light", param2 = node.param2})
   end,
 })
 ]]
