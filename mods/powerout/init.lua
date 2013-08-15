@@ -149,7 +149,7 @@ minetest.register_node("powerout:solar_panel", {
 })
 
 minetest.register_craft({
-  output = 'powerout:solar_panel',
+  output = 'powerout:solar_panel 4',
   recipe = {
     {'group:leafdecay', 'group:leafdecay', 'group:leafdecay'},
     {'default:steel_ingot','default:copper_ingot', 'default:steel_ingot'},
