@@ -82,7 +82,7 @@ minetest.register_node("powerout:light_on", {
   end,
 })
 
-local max = 5
+
 minetest.register_node("powerout:solar_panel", {
   description = "Solar panel",
   drawtype = "nodebox",
@@ -98,7 +98,10 @@ minetest.register_node("powerout:solar_panel", {
     },
   },
   on_construct = function(pos)
+    local light = minetest.get_node_light(pos, 0.5)
+    print(light)
     local range = 20
+    local max = math.floor(light/2)
     local meta = minetest.get_meta(pos)
     meta:set_int("max_power", max)
     meta:set_int("power", 0)
