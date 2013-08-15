@@ -223,7 +223,7 @@ minetest.register_craft({
   recipe = {
     {'default:cobble', 'default:cobble', 'default:cobble'},
     {'default:cobble', 'default:coalblock', 'default:cobble'},
-    {'default:cobble', 'default:cobble', 'default:cobble'},
+    {'default:cobble', 'default:copper_ingot', 'default:cobble'},
   }
 })
 
