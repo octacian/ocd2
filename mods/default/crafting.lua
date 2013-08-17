@@ -39,10 +39,10 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = 'default:torch 8',
+	output = 'default:torch 4',
 	recipe = {
-		{'default:glass'},
-		{'default:copper_ingot'},
+		{'default:coal_lump'},
+		{'default:wood'},
 	}
 })
 

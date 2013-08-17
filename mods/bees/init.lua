@@ -48,10 +48,6 @@ minetest.register_node("bees:hive", {
   end,
   on_construct = function(pos)
     minetest.get_node(pos).param2 = 0
-    local tmr = minetest.env:get_node_timer(pos)
-    local meta = minetest.env:get_meta(pos)
-    meta:set_string('angry','true')
-    tmr:start(300)
   end,
   on_punch = function(pos, node, puncher)
     local health = puncher:get_hp()

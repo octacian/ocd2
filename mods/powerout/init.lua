@@ -12,8 +12,9 @@ lamp_box = {
 minetest.register_node("powerout:light", {
   drawtype = "nodebox",
   description = "Electrical lamp",
-  tiles = {"default_torch.png"},
-  inventory_image = "default_torch_inventory.png",
+  tiles = {"powerout_lamp.png"},
+  inventory_image = "powerout_lamp_inventory.png",
+  wield_image = "powerout_lamp_inventory.png",
   wield_light = 5,
   paramtype = "light",
   paramtype2 = "wallmounted",
@@ -50,8 +51,8 @@ minetest.register_node("powerout:light", {
 minetest.register_node("powerout:light_on", {
   drawtype = "nodebox",
   description = "Electrical lamp",
-  tiles = {"default_torch.png"},
-  inventory_image = "default_torch_inventory.png",
+  tiles = {"powerout_lamp.png"},
+  inventory_image = "powerout_lamp.png",
   wield_light = 5,
   paramtype = "light",
   paramtype2 = "wallmounted",
@@ -81,7 +82,6 @@ minetest.register_node("powerout:light_on", {
     end
   end,
 })
-
 
 minetest.register_node("powerout:solar_panel", {
   description = "Solar panel",
@@ -230,11 +230,10 @@ minetest.register_craft({
   }
 })
 
-minetest.register_abm({
-  nodenames = {"default:torch"},
-  interval = 1,
-  chance = 1,
-  action = function(pos, node, _, _)
-    minetest.set_node(pos, {name="powerout:light", param2 = node.param2})
-  end,
+minetest.register_craft({
+	output = 'powerout:light 8',
+	recipe = {
+		{'default:glass'},
+		{'default:copper_ingot'},
+	}
 })

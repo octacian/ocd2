@@ -35,6 +35,21 @@ minetest.register_craftitem("default:mese_crystal", {
 	inventory_image = "default_mese_crystal.png",
 })
 
+minetest.register_node("default:mese_crystal", {
+	description = "Steel Ingot",
+	drawtype = "nodebox",
+	paramtype = "light",
+	tiles = {"default_mese_crystal.png"},
+	groups = {cracky=1,level=2},
+	sounds = default.node_sound_stone_defaults(),
+	node_box = { 
+    type = "fixed",
+    fixed = {
+      {-1/4, -1/4, -1/4, 1/4, 1/4, 1/4},
+    }
+  }
+})
+
 minetest.register_craftitem("default:gold_lump", {
 	description = "Gold Lump",
 	inventory_image = "default_gold_lump.png",

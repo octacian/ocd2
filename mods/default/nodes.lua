@@ -559,30 +559,69 @@ minetest.register_node("default:lava_source", {
 	groups = {lava=3, liquid=2, hot=3, igniter=1},
 })
 
-mesecon_lamp_box = {
+torch_box = {
 	type = "wallmounted",
-	wall_top = {-0.2000,0.375,-0.2000,0.2000,0.5,0.2000},
-	wall_bottom = {-0.2000,-0.5,-0.2000,0.2000,-0.375,0.2000},
-	wall_side = {-0.375,-0.2000,-0.2000,-0.5,0.2000,0.2000},
+	wall_top = {-0.5/3, -0.5/3, -0.5/3, 0.5/3, 1.5/3, 0.5/3},
+	wall_bottom = {-0.5/3, -1.5/3, -0.5/3, 0.5/3, 0.5/3, 0.5/3},
+	wall_side = {-1.5/3, -0.5/3, -0.5/3, 0.5/3, 0.5/3, 0.5/3},
 }
+
+local torch_time = 3600
 
 minetest.register_node("default:torch", {
 	drawtype = "nodebox",
-	description = "Electrical lamp(old)",
+	description = "Torch",
 	tiles = {"default_torch.png"},
 	inventory_image = "default_torch_inventory.png",
-	wield_light = 5,
+	wield_image = "default_torch_inventory.png",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	legacy_wallmounted = true,
 	sunlight_propagates = true,
 	walkable = false,
 	light_source = LIGHT_MAX-3,
-	node_box = mesecon_lamp_box,
-	selection_box = mesecon_lamp_box,
-	groups = {attached_node=1, dig_immediate=3,not_in_creative_inventory=1, mesecon_effector_on = 1},
-	drop='"default:torch" 1',
-	sounds = default.node_sound_glass_defaults(),
+	node_box = torch_box,
+	groups = {attached_node=1, dig_immediate=3,not_in_creative_inventory=1},
+	drop='"default:stick" 1',
+	sounds = default.node_sound_wood_defaults(),
+	on_construct = function(pos)
+		local tmr = minetest.env:get_node_timer(pos)
+		tmr:start(torch_time)
+	end,
+	on_rightclick = function(pos, node)
+		local tmr = minetest.env:get_node_timer(pos)
+		local meta = minetest.get_meta(pos)
+		local proc = math.floor(tmr:get_elapsed()/(torch_time/100))
+		meta:set_string("infotext", proc.."%")
+	end,
+	on_timer = function(pos,elapsed)
+		local node = minetest.get_node(pos)
+		minetest.set_node(pos, {name="default:torch_out", param2 = node.param2})
+	end,
+})
+
+minetest.register_node("default:torch_out", {
+	drawtype = "nodebox",
+	description = "Torch",
+	tiles = {"default_torch_out.png"},
+	inventory_image = "default_torch_inventory.png",
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	legacy_wallmounted = true,
+	sunlight_propagates = true,
+	walkable = false,
+	node_box = torch_box,
+	groups = {attached_node=1, dig_immediate=3,not_in_creative_inventory=1},
+	drop='"default:stick" 1',
+	sounds = default.node_sound_wood_defaults(),
+	on_construct = function(pos)
+		local tmr = minetest.env:get_node_timer(pos)
+		tmr:start(300)
+	end,
+	on_timer = function(pos,elapsed)
+		local node = minetest.get_node(pos)
+		minetest.set_node(pos, {name="default:torch_out", param2 = node.param2})
+	end,
 })
 
 minetest.register_node("default:sign_wall", {
