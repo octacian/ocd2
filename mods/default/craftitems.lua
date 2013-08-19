@@ -36,7 +36,7 @@ minetest.register_craftitem("default:mese_crystal", {
 })
 
 minetest.register_node("default:mese_crystal", {
-	description = "Steel Ingot",
+	description = "Mese crystal",
 	drawtype = "nodebox",
 	paramtype = "light",
 	tiles = {"default_mese_crystal.png"},

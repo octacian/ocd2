@@ -24,8 +24,8 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'default:fence_wood 2',
 	recipe = {
-		{'default:wood', 'default:wood', 'default:wood'},
-		{'default:wood', 'default:wood', 'default:wood'},
+		{'default:stick', 'default:stick', 'default:stick'},
+		{'default:stick', 'default:stick', 'default:stick'},
 	}
 })
 
@@ -34,7 +34,7 @@ minetest.register_craft({
 	recipe = {
 		{'group:wood', 'group:wood', 'group:wood'},
 		{'group:wood', 'group:wood', 'group:wood'},
-		{'', 'default:wood', ''},
+		{'', 'default:stick', ''},
 	}
 })
 
@@ -474,9 +474,9 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'default:ladder',
 	recipe = {
-		{'default:wood', '', 'default:wood'},
-		{'default:wood', 'default:wood', 'default:wood'},
-		{'default:wood', '', 'default:wood'},
+		{'default:stick', '', 'default:stick'},
+		{'default:stick', 'default:stick', 'default:stick'},
+		{'default:stick', '', 'default:stick'},
 	}
 })
 

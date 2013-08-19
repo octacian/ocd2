@@ -44,7 +44,7 @@ inventory_plus.get_formspec = function(player,page)
 	local formspec = "size[8,7.5]"
 	
 	-- player inventory
-	formspec = formspec .. "list[current_player;main;0,3.5;8,4;]"
+	formspec = formspec .. "list[current_player;main;0,3.5;8,4;]".."box[3,0;2.8,2.9;000000]"
 
 	-- craft page
 	if page=="craft" then
@@ -54,6 +54,7 @@ inventory_plus.get_formspec = function(player,page)
 		if minetest.setting_getbool("inventory_craft_small") then
 			formspec = formspec.."list[current_player;craft;3,0;2,2;]"
 			player:get_inventory():set_width("craft", 2)
+			
 			player:get_inventory():set_size("craft", 2*2)
 		else
 			formspec = formspec.."list[current_player;craft;3,0;3,3;]"
