@@ -63,7 +63,7 @@ function mesecon:register_pressure_plate(offstate, onstate, description, texture
 		paramtype = "light",
 		selection_box = pp_box_off,
 		node_box = pp_box_off,
-		groups = {snappy = 2, oddly_breakable_by_hand = 3},
+		groups = {snappy = 2, oddly_breakable_by_hand = 3, attached_node=1},
 	    	description = description,
 		pressureplate = ppspec,
 		on_timer = pp_on_timer,
