@@ -21,7 +21,7 @@ local function create_soil(pos, inv, p)
 	end
 	return false
 end
-
+print("kajldkalkwdhalwkjd")
 minetest.register_tool("farming:hoe_wood", {
 	description = "Wood Hoe",
 	inventory_image = "farming_hoe_wood.png",
@@ -38,7 +38,7 @@ minetest.register_tool("farming:hoe_wood", {
 minetest.register_craft({
 	output = "farming:hoe_wood",
 	recipe = {
-		{"default:wood", "default:wood"},
+		{"group:wood", "group:wood"},
 		{"", "group:wood"},
 		{"", "group:wood"}
 	}
@@ -60,7 +60,7 @@ minetest.register_tool("farming:hoe_stone", {
 minetest.register_craft({
 	output = "farming:hoe_stone",
 	recipe = {
-		{"default:cobble", "default:cobble"},
+		{"group:stone", "group:stone"},
 		{"", "group:wood"},
 		{"", "group:wood"}
 	}

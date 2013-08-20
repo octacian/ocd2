@@ -69,9 +69,11 @@ creative_inventory.set_default_formspec = function(player)
     "list[current_player;craft;2.5,0;3,3;]"..
     "list[current_player;craftpreview;3.5,3;1,1;]"..
     "list[current_player;main;0,4;8,4;]")
-  player:get_inventory():set_size("main", 4*8) --NotNick's contribution
-  player:get_inventory():set_width("craft", 8)
-  player:get_inventory():set_size("craft", 4*8)
+  
+  player:get_inventory():set_size("main", 4*8)
+  player:get_inventory():set_width("craft", 3)
+  player:get_inventory():set_size("craft", 3*3)
+  player:get_inventory():set_size("craftpreview", 1)
 end
 
 minetest.register_on_joinplayer(function(player)

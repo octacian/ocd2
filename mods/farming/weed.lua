@@ -9,7 +9,7 @@ minetest.register_node("farming:weed", {
 	selection_box = {
 		type = "fixed",
 		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+4/16, 0.5}
+			{-0.5, -0.5, -0.5, 0.5, -0.5, 0.5}
 		},
 	},
 	groups = {snappy=3, flammable=2, attached_node=1},

@@ -92,28 +92,20 @@ for i = 1, 9 do
     tile_images = {img},
     inventory_image = img,
     description = hue.." tulip seeds",
-    drawtype = "nodebox",
+    drawtype = "raillike",
     paramtype = 'light',
     sunlight_propagates = true,
     walkable = false,
     visual_scale = 1.3,
     groups = { snappy = 3,flammable=2, attached_node=1, not_in_creative_inventory=1},
     sounds = default.node_sound_leaves_defaults(),
-    node_box = {
-    type = "fixed",
-      fixed = {
-        {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5}
-        },
-    },
     selection_box = {
       type = "fixed",
       fixed = {
-        {-0.5, -0.45, -0.5, 0.5, -0.5, 0.5}
+        {-0.5, -0.5, -0.5, 0.5, -0.5, 0.5}
       },
     },
-    
   })
-
 end
 
 --spawning

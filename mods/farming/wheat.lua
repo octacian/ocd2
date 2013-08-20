@@ -16,15 +16,15 @@ minetest.register_node("farming:wheat_1", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	drawtype = "plantlike",
+	drawtype = "raillike",
 	drop = "",
-	tiles = {"farming_wheat_1.png"},
+	tiles = {"farming_wheat_seed.png"},
 	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+4/16, 0.5}
-		},
-	},
+    type = "fixed",
+    fixed = {
+      {-0.5, -0.5, -0.5, 0.5, -0.5, 0.5}
+    },
+  },
 	groups = {snappy=3, flammable=2, not_in_creative_inventory=1},
 	sounds = default.node_sound_leaves_defaults(),
 })
@@ -33,14 +33,12 @@ minetest.register_node("farming:wheat_2", {
 	sunlight_propagates = true,
 	paramtype = "light",
 	walkable = false,
-	drawtype = "plantlike",
+	drawtype = "nodebox",
 	drop = "",
 	tiles = {"farming_wheat_2.png"},
-	selection_box = {
+	node_box = {
 		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+7/16, 0.5}
-		},
+		fixed = {{-1.5/5, -2.5/5, -1.5/5, -0.5/5, -0.5/5, -0.5/5},{0.5/5, -2.5/5, 0.5/5, 1.5/5, -0.5/5, 1.5/5},{0.5/5, -2.5/5, -1.5/5, 1.5/5, 0.5/5, -0.5/5},{-1.5/5, -2.5/5, 0.5/5, -0.5/5, 0.5/5, 1.5/5},},
 	},
 	groups = {snappy=3, flammable=2, not_in_creative_inventory=1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -50,14 +48,12 @@ minetest.register_node("farming:wheat_3", {
 	sunlight_propagates = true,
 	paramtype = "light",
 	walkable = false,
-	drawtype = "plantlike",
+	drawtype = "nodebox",
 	drop = "",
 	tiles = {"farming_wheat_3.png"},
-	selection_box = {
+	node_box = {
 		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+13/16, 0.5}
-		},
+		fixed = {{-1.5/5, -2.5/5, -1.5/5, -0.5/5, 1.5/5, -0.5/5},{0.5/5, -2.5/5, -1.5/5, 1.5/5, 2.5/5, -0.5/5},{0.5/5, -2.5/5, 0.5/5, 1.5/5, 1.5/5, 1.5/5},{-1.5/5, -2.5/5, 0.5/5, -0.5/5, 2.5/5, 1.5/5}},
 	},
 	groups = {snappy=3, flammable=2, not_in_creative_inventory=1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -67,7 +63,7 @@ minetest.register_node("farming:wheat", {
 	sunlight_propagates = true,
 	paramtype = "light",
 	walkable = false,
-	drawtype = "plantlike",
+	drawtype = "nodebox",
 	tiles = {"farming_wheat.png"},
 	drop = {
 		max_items = 4,
@@ -77,6 +73,10 @@ minetest.register_node("farming:wheat", {
 			{ items = {'farming:wheat_seed'}, rarity = 5},
 			{ items = {'farming:wheat_harvested'} }
 		}
+	},
+	node_box = {
+		type = "fixed",
+		fixed = {{-1.5/5, -2.5/5, -1.5/5, -0.5/5, 2.5/5, -0.5/5},{0.5/5, -2.5/5, -1.5/5, 1.5/5, 2.5/5, -0.5/5},{0.5/5, -2.5/5, 0.5/5, 1.5/5, 2.5/5, 1.5/5},{-1.5/5, -2.5/5, 0.5/5, -0.5/5, 2.5/5, 1.5/5},},
 	},
 	groups = {snappy=3, flammable=2, not_in_creative_inventory=1},
 	sounds = default.node_sound_leaves_defaults(),

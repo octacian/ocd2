@@ -16,15 +16,15 @@ minetest.register_node("farming:cotton_1", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	drawtype = "plantlike",
+	drawtype = "raillike",
 	drop = "",
-	tiles = {"farming_cotton_1.png"},
+	tiles = {"farming_cotton_seed.png"},
 	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+6/16, 0.5}
-		},
-	},
+    type = "fixed",
+    fixed = {
+      {-0.5, -0.5, -0.5, 0.5, -0.5, 0.5}
+    },
+  },
 	groups = {snappy=3, flammable=2, not_in_creative_inventory=1, attached_node=1},
 	sounds = default.node_sound_leaves_defaults(),
 })
