@@ -33,7 +33,7 @@ if hunger.enabled then
           max_hear_distance = 16;
         });
       else
-        player:set_hp(player:get_hp()-hunger[name])
+        player:set_hp(player:get_hp()-1)
         hunger[name] = hunger[name] - 1
         minetest.sound_play({ name="hunger_stomach" }, {
           gain = 1.0;
@@ -48,7 +48,7 @@ if hunger.enabled then
       hunger[name] = hunger[name] + hunger_per_cubic
       if hunger[name] >= 0.5 then
         player:set_hp(player:get_hp()-hunger[name])
-        hunger[name] = 0
+        hunger[name] = hunger[name] - 1
       end
     end
   end)

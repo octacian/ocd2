@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------------
 local title		= "Memorandum"
-local version 	= "0.0.3"
+local version 	= "0.0.4"
 local mname		= "memorandum"
 -----------------------------------------------------------------------------------------------
 
@@ -10,9 +10,11 @@ minetest.register_craftitem(":default:paper", {
 	on_place = function(itemstack, placer, pointed_thing)
 		local pt = pointed_thing
 		local direction = minetest.dir_to_facedir(placer:get_look_dir())
-		minetest.add_node({x=pt.under.x, y=pt.under.y+1, z=pt.under.z}, {name="memorandum:letter_empty", param2=direction})
-		itemstack:take_item()
-		return itemstack
+		if minetest.env:get_node({x=pt.under.x, y=pt.under.y+1, z=pt.under.z}).name == "air" then
+			minetest.add_node({x=pt.under.x, y=pt.under.y+1, z=pt.under.z}, {name="memorandum:letter_empty", param2=direction})
+			itemstack:take_item()
+			return itemstack
+		end
 	end,
 })
 
@@ -46,12 +48,18 @@ minetest.register_node("memorandum:letter_empty", {
 	on_receive_fields = function(pos, formname, fields, sender)
 		local meta = minetest.get_meta(pos)
 		fields.text = fields.text or ""
-		--print((sender:get_player_name() or "").." wrote \""..fields.text..
-				--"\" to paper at "..minetest.pos_to_string(pos))
+		print((sender:get_player_name() or "").." wrote \""..fields.text..
+				"\" to paper at "..minetest.pos_to_string(pos))
 		meta:set_string("text", fields.text)
 		local direction = minetest.env:get_node(pos).param2
 		minetest.env:add_node(pos, {name="memorandum:letter_written", param2=direction})
 		meta:set_string("infotext", 'On this piece of paper is written: "'..fields.text..'"')
+	end,
+	on_dig = function(pos, node, digger)
+		if digger:is_player() and digger:get_inventory() then
+			digger:get_inventory():add_item("main", {name="default:paper", count=1, wear=0, metadata=""})
+		end
+		minetest.remove_node(pos)
 	end,
 })
 
@@ -59,6 +67,7 @@ minetest.register_craftitem("memorandum:letter", {
 	description = "Letter",
 	inventory_image = "default_paper.png^memorandum_letters.png",
 	stack_max = 1,
+	groups = {not_in_creative_inventory=1},
 	on_use = function(itemstack, user, pointed_thing)
 		local player = user:get_player_name()
 		local text = itemstack:get_metadata()
@@ -69,10 +78,12 @@ minetest.register_craftitem("memorandum:letter", {
 		local direction = minetest.dir_to_facedir(placer:get_look_dir())
 		local meta1 = minetest.env:get_meta({x=pt.under.x, y=pt.under.y+1, z=pt.under.z})
 		local text = itemstack:get_metadata()
-		minetest.add_node({x=pt.under.x, y=pt.under.y+1, z=pt.under.z}, {name="memorandum:letter_written", param2=direction})
-		meta1:set_string("infotext", text)
-		itemstack:take_item()
-		return itemstack
+		if minetest.env:get_node({x=pt.under.x, y=pt.under.y+1, z=pt.under.z}).name == "air" then
+			minetest.add_node({x=pt.under.x, y=pt.under.y+1, z=pt.under.z}, {name="memorandum:letter_written", param2=direction})
+			meta1:set_string("infotext", text)
+			itemstack:take_item()
+			return itemstack
+		end
 	end,
 })
 
