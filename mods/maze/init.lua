@@ -360,7 +360,7 @@ minetest.register_chatcommand("maze", {
 		pos.y = math.floor(player_pos.y + 0.5) - 3 * treasure_l
 		local items = 0
 		for name, item in pairs(minetest.registered_items) do 
-			local nBegin, nEnd = string.find(name, "default\:")
+			local nBegin, nEnd = string.find(name, "default:")
 			if nBegin ~= nil then 
 				items = items + 1 
 			end
@@ -369,7 +369,7 @@ minetest.register_chatcommand("maze", {
 		local meta = minetest.env:get_meta(pos)
 		local inv = meta:get_inventory()
 		for name, item in pairs(minetest.registered_items) do
-			local nBegin, nEnd = string.find(name, "default\:")
+			local nBegin, nEnd = string.find(name, "default:")
 			if nBegin ~= nil then 
 				if math.random(items / 5) == 1 then 
 					inv:add_item('main', name .. " 1")
