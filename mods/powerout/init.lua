@@ -22,7 +22,7 @@ minetest.register_node("powerout:light", {
   sunlight_propagates = true,
   walkable = false,
   node_box = lamp_box,
-  groups = {attached_node=1, dig_immediate=3},
+  groups = {attached_node=1, dig_immediate=3,not_in_creative_inventory=1},
   drop='powerout:light',
   sounds = default.node_sound_glass_defaults(),
   after_place_node = function(pos)
