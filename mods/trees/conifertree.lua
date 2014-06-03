@@ -39,7 +39,6 @@ abstract_trees.grow_conifertree = function(pos)
   end
 end
 
-
 -- abm
 minetest.register_abm({
   nodenames = "trees:sapling_conifer",

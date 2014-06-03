@@ -501,6 +501,9 @@ minetest.register_tool("default:axe_diamond", {
 minetest.register_tool("default:sword_wood", {
 	description = "Wooden Sword",
 	inventory_image = "default_tool_woodsword.png",
+        on_use = function(data)
+          print(data)
+        end,
 	tool_capabilities = {
 		full_punch_interval = 1,
 		max_drop_level=0,
