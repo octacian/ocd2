@@ -696,18 +696,6 @@ minetest.register_craft({
 
 minetest.register_craft({
 	type = "fuel",
-	recipe = "default:nyancat",
-	burntime = 1,
-})
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "default:nyancat_rainbow",
-	burntime = 1,
-})
-
-minetest.register_craft({
-	type = "fuel",
 	recipe = "default:sapling",
 	burntime = 10,
 })
