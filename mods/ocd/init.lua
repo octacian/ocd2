@@ -9,6 +9,8 @@ end)
 
 -- Load item entity
 dofile(modpath.."/item_entity.lua")
+-- Load wield
+dofile(modpath.."/wield.lua")
 
 minetest.register_node("ocd:stone_in_cobble", {
 	description = "Stone in cobble",
