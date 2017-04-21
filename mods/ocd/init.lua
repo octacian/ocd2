@@ -1,9 +1,14 @@
 -- ocd/init.lua
 
+local modpath = minetest.get_modpath("ocd")
+
 -- [register] On join player, welcome
 minetest.register_on_joinplayer(function(player)
 	minetest.chat_send_player(player:get_player_name(), "Welcome to OCD2!")
 end)
+
+-- Load item entity
+dofile(modpath.."/item_entity.lua")
 
 minetest.register_node("ocd:stone_in_cobble", {
 	description = "Stone in cobble",
