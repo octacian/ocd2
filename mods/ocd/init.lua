@@ -1,3 +1,10 @@
+-- ocd/init.lua
+
+-- [register] On join player, welcome
+minetest.register_on_joinplayer(function(player)
+	minetest.chat_send_player(player:get_player_name(), "Welcome to OCD2!")
+end)
+
 minetest.register_node("ocd:stone_in_cobble", {
 	description = "Stone in cobble",
 	tiles = {"ocd_stone_in_cobble.png"},
