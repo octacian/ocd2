@@ -39,7 +39,7 @@ local LUXCHA = 7*7*7 -- 7*7*7 -- Luxore 1/x chance underground.
 local IROCHA = 5*5*5 -- 5*5*5 -- Iron ore 1/x chance.
 local MESCHA = 23*23*23 -- 23*23*23 -- Mese block 1/x chance.
 
-local ATMOS = true -- Enable / disable tinted atmosphere nodes. 
+local ATMOS = true -- Enable / disable tinted atmosphere nodes.
 local ATMALP = 16 -- 16 -- Atmosphere alpha.
 local ATMRED = 255 -- 255 -- Atmosphere RGB.
 local ATMGRE = 148 -- 148
@@ -213,7 +213,7 @@ minetest.register_node("moonrealm:airgen", {
 		end
 		end
 		end
-		
+
 	end
 })
 
@@ -517,7 +517,7 @@ if ATMOS then
 		for k = -1,1 do
 			if not (i == 0 and j == 0 and k == 0) then
 				local nodename = env:get_node({x=x+i,y=y+j,z=z+k}).name
-				if nodename == "moonrealm:atmos" then	
+				if nodename == "moonrealm:atmos" then
 					env:add_node({x=x,y=y,z=z},{name="moonrealm:atmos"})
 					print ("[moonrealm] Atmosphere flows into hole")
 					return
@@ -627,8 +627,8 @@ if ONGEN then
 		clust_scarcity = MESCHA,
 		clust_num_ores = 1,
 		clust_size     = 1,
-		height_min     = yminq,
-		height_max     = ymaxq - 160,
+		y_min     = yminq,
+		y_max     = ymaxq - 160,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -637,8 +637,8 @@ if ONGEN then
 		clust_scarcity = IROCHA,
 		clust_num_ores = 1,
 		clust_size     = 1,
-		height_min     = yminq,
-		height_max     = ymaxq - 160,
+		y_min     = yminq,
+		y_max     = ymaxq - 160,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -647,8 +647,8 @@ if ONGEN then
 		clust_scarcity = LUXCHA,
 		clust_num_ores = 1,
 		clust_size     = 1,
-		height_min     = yminq,
-		height_max     = ymaxq - 160,
+		y_min     = yminq,
+		y_max     = ymaxq - 160,
 	})
 	for i=1,7 do
 		minetest.register_ore({
@@ -658,8 +658,8 @@ if ONGEN then
 			clust_scarcity = 1,
 			clust_num_ores = 1,
 			clust_size     = 1,
-			height_min     = yminq,
-			height_max     = ymaxq - 160,
+			y_min     = yminq,
+			y_max     = ymaxq - 160,
 		})
 	end
 	if ATMOS then
@@ -671,8 +671,8 @@ if ONGEN then
 				clust_scarcity = 1,
 				clust_num_ores = 1,
 				clust_size     = 1,
-				height_min     = ymaxq - 159,
-				height_max     = ATMTOP,
+				y_min     = ymaxq - 159,
+				y_max     = ATMTOP,
 			})
 		end
 	end

@@ -57,7 +57,7 @@
     paramtype = 'light',
     tiles = {
       {
-        name='bees_strip.png', 
+        name='bees_strip.png',
         animation={type='vertical_frames', aspect_w=16,aspect_h=16, length=2.0}
       }
     },
@@ -73,7 +73,7 @@
 
   minetest.register_node('bees:hive_wild', {
     description = 'wild bee hive',
-    tile_images = {'bees_hive_wild.png','bees_hive_wild.png','bees_hive_wild.png', 'bees_hive_wild.png', 'bees_hive_wild_bottom.png'}, --Neuromancer's base texture
+    tiles = {'bees_hive_wild.png','bees_hive_wild.png','bees_hive_wild.png', 'bees_hive_wild.png', 'bees_hive_wild_bottom.png'}, --Neuromancer's base texture
     drawtype = 'nodebox',
     paramtype = 'light',
     paramtype2 = 'wallmounted',
@@ -101,13 +101,13 @@
       local minp = {x=pos.x-rad, y=pos.y-rad, z=pos.z-rad}
       local maxp = {x=pos.x+rad, y=pos.y+rad, z=pos.z+rad}
       local flowers = minetest.find_nodes_in_area(minp, maxp, 'group:flower')
-      if #flowers == 0 then 
+      if #flowers == 0 then
         inv:set_stack('queen', 1, '')
         meta:set_string('infotext', 'this colony died, not enough flowers in area')
-        return 
+        return
       end --not any flowers nearby The queen dies!
       if #flowers < 3 then return end --requires 2 or more flowers before can make honey
-      local flower = flowers[math.random(#flowers)] 
+      local flower = flowers[math.random(#flowers)]
       bees.polinate_flower(flower, minetest.get_node(flower).name)
       local stacks = inv:get_list('combs')
       for k, v in pairs(stacks) do
@@ -181,7 +181,7 @@
     end,
     after_dig_node = function(pos, oldnode, oldmetadata, user)
       local wielded if user:get_wielded_item() ~= nil then wielded = user:get_wielded_item() else return end
-      if 'bees:grafting_tool' == wielded:get_name() then 
+      if 'bees:grafting_tool' == wielded:get_name() then
         local inv = user:get_inventory()
         if inv then
           inv:add_item('main', ItemStack('bees:queen'))
@@ -239,7 +239,7 @@
           progress = progress + #flowers
           meta:set_int('progress', progress)
           if progress > 1000 then
-            local flower = flowers[math.random(#flowers)] 
+            local flower = flowers[math.random(#flowers)]
             bees.polinate_flower(flower, minetest.get_node(flower).name)
             local stacks = inv:get_list('frames')
             for k, v in pairs(stacks) do
@@ -267,8 +267,8 @@
       end
     end,
     allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-      if from_list ~= to_list then 
-        return 1 
+      if from_list ~= to_list then
+        return 1
       else
         return 0
       end
@@ -395,7 +395,7 @@
       {'', '', ''},
     }
   })
-  
+
   minetest.register_craft({
     output = 'bees:frame_empty',
     recipe = {

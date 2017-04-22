@@ -17,7 +17,7 @@ local grasses_list = {
 minetest.register_node('junglegrass:medium', {
 	description = "Jungle Grass (medium height)",
 	drawtype = 'plantlike',
-	tile_images = { 'junglegrass_medium.png' },
+	tiles = { 'junglegrass_medium.png' },
 	inventory_image = 'junglegrass_medium.png',
 	wield_image = 'junglegrass_medium.png',
 	sunlight_propagates = true,
@@ -37,7 +37,7 @@ minetest.register_node('junglegrass:medium', {
 minetest.register_node('junglegrass:short', {
 	description = "Jungle Grass (short)",
 	drawtype = 'plantlike',
-	tile_images = { 'junglegrass_short.png' },
+	tiles = { 'junglegrass_short.png' },
 	inventory_image = 'junglegrass_short.png',
 	wield_image = 'junglegrass_short.png',
 	sunlight_propagates = true,
@@ -56,7 +56,7 @@ minetest.register_node('junglegrass:short', {
 minetest.register_node('junglegrass:shortest', {
 	description = "Jungle Grass (very short)",
 	drawtype = 'plantlike',
-	tile_images = { 'junglegrass_shortest.png' },
+	tiles = { 'junglegrass_shortest.png' },
 	inventory_image = 'junglegrass_shortest.png',
 	wield_image = 'junglegrass_shortest.png',
 	sunlight_propagates = true,

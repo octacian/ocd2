@@ -4,7 +4,7 @@ img = ""
 tulips_seed_diff = 420420
 hue2 = "white"
 minetest.register_node(mod..":plant", {--register wild plant
-  tile_images = {img},
+  tiles = {img},
   inventory_image = img,
   description = hue2.." tulip",
   drop = "",
@@ -20,12 +20,12 @@ minetest.register_node(mod..":plant", {--register wild plant
     fixed = { -0.25, -0.5, -0.25, 0.25, -3/16, 0.25 },
   },
 })
-  
 
-        
-        
-    
-        
+
+
+
+
+
 for i = 1, 9 do
   local hue = dye.basecolors[i]
   local hue2 = dye.basecolors[i]
@@ -48,7 +48,7 @@ for i = 1, 9 do
 			  { items = {mod..":"..hue.."_seeds"}, rarity = 5},
 		  }
 	  },
-	  node_box = { 
+	  node_box = {
       type = "fixed",
       fixed = {
         {-0.5/5, -2.5/5, -0.5/5, 0.5/5, 0.5/5, 0.5/5},
@@ -89,7 +89,7 @@ for i = 1, 9 do
   --seed
   img = mod.."_seeds.png"
   minetest.register_node(mod..":"..hue.."_seeds", {--register wild plant
-    tile_images = {img},
+    tiles = {img},
     inventory_image = img,
     description = hue.." tulip seeds",
     drawtype = "raillike",

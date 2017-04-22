@@ -18,12 +18,12 @@ abstract_trees.trees_register_nodes_tree = function(name)
   
   minetest.register_node("trees:tree_"..name, {
 	  description = name.. " Tree",
-	  
+
 	  tiles = {"trees_tree_top_"..name..".png", "trees_tree_top_"..name..".png", "trees_tree_"..name..".png"},
 	  groups = {tree=1,choppy=2,oddly_breakable_by_hand=1,flammable=2},
 	  sounds = default.node_sound_wood_defaults(),
   })
-  
+
   minetest.register_node("trees:wood_"..name, {
 	  description = name.. " Wood",
 	  paramtype2 = "facedir",
@@ -31,19 +31,19 @@ abstract_trees.trees_register_nodes_tree = function(name)
 	  groups = {choppy=2,oddly_breakable_by_hand=2,flammable=3,wood=1},
 	  sounds = default.node_sound_wood_defaults(),
   })
-  
+
   minetest.register_craft({
 	output = 'trees:wood_'..name..' 4',
 	recipe = {
 		{'trees:tree_'..name},
 	}
   })
-  
+
   minetest.register_node("trees:sapling_"..name, {
 	  description = name.." sapling",
 	  drawtype = "plantlike",
 	  visual_scale = 1.0,
-	  tile_images = { "trees_sapling_"..name..".png" },
+	  tiles = { "trees_sapling_"..name..".png" },
 	  paramtype = "light",
 	  walkable = false,
 	  groups = {
@@ -53,10 +53,9 @@ abstract_trees.trees_register_nodes_tree = function(name)
 	  },
 	  sounds = default.node_sound_defaults(),
   })
-  
+
 end
 
 abstract_trees.trees_register_nodes_tree("palm")
 abstract_trees.trees_register_nodes_tree("mangrove")
 abstract_trees.trees_register_nodes_tree("conifer")
-

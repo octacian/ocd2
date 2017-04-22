@@ -16,7 +16,7 @@ minetest.register_craft({
 })
 minetest.register_node("firestone:firestone", {
   description = "Fire node",
-  tile_images = {"default_mineral_coal.png", "default_stone.png", "default_stone.png"},
+  tiles = {"default_mineral_coal.png", "default_stone.png", "default_stone.png"},
   groups = {igniter=2, cracky=3, stone=2},
   damage_per_second = 4,
   after_place_node = function(pos)
@@ -109,7 +109,7 @@ minetest.register_node("firestone:chimney", {
 })
 minetest.register_node("firestone:smoke", {
   description = "smoke",
-  drawtype = "plantlike", 
+  drawtype = "plantlike",
   tiles ={{
   name="firestone_smoke.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=4.0},
   }},
