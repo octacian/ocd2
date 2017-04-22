@@ -166,13 +166,13 @@ minetest.register_abm({
 
 minetest.register_abm({
 	nodenames = {"default:papyrus"},
-	neighbors = {"default:dirt", "default:dirt_with_grass"},
+	neighbors = {"soil:dirt", "soil:dirt_with_grass"},
 	interval = 50,
 	chance = 20,
 	action = function(pos, node)
 		pos.y = pos.y-1
 		local name = minetest.get_node(pos).name
-		if name == "default:dirt" or name == "default:dirt_with_grass" then
+		if name == "soil:dirt" or name == "soil:dirt_with_grass" then
 			if minetest.find_node_near(pos, 3, {"group:water"}) == nil then
 				return
 			end

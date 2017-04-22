@@ -10,7 +10,7 @@ minetest.register_abm(
     local level = (math.random(2))-1
     local placed = false
     local p = {x=pos.x-1,y=pos.y-level,z=pos.z}
-    if (minetest.get_node(p).name=="default:dirt_with_grass") then
+    if (minetest.get_node(p).name=="soil:dirt_with_grass") then
       local p = {x=pos.x-1,y=p.y+1,z=pos.z}
       if (minetest.get_node(p).name == "air") then
         minetest.add_node(p,node)
@@ -19,36 +19,36 @@ minetest.register_abm(
     end
 
     local p = {x=pos.x+1,y=pos.y-level,z=pos.z}
-    if (minetest.get_node(p).name=="default:dirt_with_grass") then
+    if (minetest.get_node(p).name=="soil:dirt_with_grass") then
       local p = {x=pos.x+1, y=p.y+1,z=pos.z}
       if (minetest.get_node(p).name == "air") then
         minetest.add_node(p,node)
         placed = true
       end
     end
-    
+
     local p = {x=pos.x,y=pos.y-level,z=pos.z-1}
-    if (minetest.get_node(p).name=="default:dirt_with_grass") then
+    if (minetest.get_node(p).name=="soil:dirt_with_grass") then
       local p = {x=pos.x,y=p.y+1,z=pos.z-1}
       if (minetest.get_node(p).name == "air") then
         minetest.add_node(p,node)
         placed = true
       end
     end
-    
+
     local p = {x=pos.x,y=pos.y-level,z=pos.z+1}
-    if (minetest.get_node(p).name=="default:dirt_with_grass") then
+    if (minetest.get_node(p).name=="soil:dirt_with_grass") then
       local p = {x=pos.x,y=p.y+1,z=pos.z+1}
       if (minetest.get_node(p).name == "air") then
         minetest.add_node(p,node)
         placed = true
       end
     end
-    
+
     if (math.random(4) == 1 or placed == true) then
       minetest.set_node(pos,{name="default:grass_"..math.random(4)+1})
     end
-    
+
   end
 })
 
@@ -63,7 +63,7 @@ minetest.register_abm({
 })
 
 minetest.register_abm(
-  {nodenames = {"default:dirt_with_grass"},
+  {nodenames = {"soil:dirt_with_grass"},
   neighbors = {"default:water_source"},
   interval = interval,
   chance = 200,

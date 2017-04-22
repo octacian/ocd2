@@ -4,15 +4,15 @@ if minetest.get_modpath("flolands") then
   minetest.register_craft({
     output = 'dualport:dualport',
     recipe = {
-      {'flolands:floatsand','default:sand'},
+      {'flolands:floatsand','soil:sand'},
       {'default:cactus','default:desert_sand'},
     }
   })
-  
+
   minetest.register_craft({
     output = 'dualport:buildport',
     recipe = {
-      {'flolands:floatsand','default:sand'},
+      {'flolands:floatsand','soil:sand'},
       {'default:tree','default:desert_sand'},
     }
   })
@@ -24,7 +24,7 @@ else
       {'default:cactus','default:desert_sand'},
     }
   })
-  
+
   minetest.register_craft({
     output = 'dualport:buildport',
     recipe = {

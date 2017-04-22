@@ -114,7 +114,7 @@ plantslib:spawn_on_surfaces({
   spawn_plants = tulips_table,
   avoid_radius = 50,
   spawn_chance = 1500,
-  spawn_surfaces = {"default:dirt_with_grass"},
+  spawn_surfaces = {"soil:dirt_with_grass"},
   avoid_nodes = {"group:flower"},
   seed_diff = tulips_seed_diff,
   light_min = 9

@@ -91,75 +91,6 @@ minetest.register_node("default:desert_stonebrick", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("default:dirt_with_grass", {
-	description = "Dirt with Grass",
-	tiles = {"default_grass.png", "default_dirt.png", "default_dirt.png^default_grass_side.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_grass_footstep", gain=0.25},
-	}),
-})
-
-minetest.register_node("default:dirt_with_grass_footsteps", {
-	description = "Dirt with Grass and Footsteps",
-	tiles = {"default_grass_footsteps.png", "default_dirt.png", "default_dirt.png^default_grass_side.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1,not_in_creative_inventory=1},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_grass_footstep", gain=0.25},
-	}),
-})
-
-minetest.register_node("default:dirt_with_snow", {
-	description = "Dirt with Snow",
-	tiles = {"default_snow.png", "default_dirt.png", "default_dirt.png^default_snow_side.png"},
-	is_ground_content = true,
-	groups = {crumbly=3},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_snow_footstep", gain=0.25},
-	}),
-})
-minetest.register_alias("dirt_with_snow", "default:dirt_with_snow")
-
-minetest.register_node("default:dirt", {
-	description = "Dirt",
-	tiles = {"default_dirt.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1},
-	sounds = default.node_sound_dirt_defaults(),
-})
-
-minetest.register_node("default:sand", {
-	description = "Sand",
-	tiles = {"default_sand.png"},
-	is_ground_content = true,
-	groups = {crumbly=3, falling_node=1, sand=1},
-	sounds = default.node_sound_sand_defaults(),
-})
-
-minetest.register_node("default:desert_sand", {
-	description = "Desert Sand",
-	tiles = {"default_desert_sand.png"},
-	is_ground_content = true,
-	groups = {crumbly=3, falling_node=1, sand=1},
-	sounds = default.node_sound_sand_defaults(),
-})
-
-minetest.register_node("default:gravel", {
-	description = "Gravel",
-	tiles = {"default_gravel.png"},
-	is_ground_content = true,
-	groups = {crumbly=2, falling_node=1},
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_gravel_footstep", gain=0.5},
-		dug = {name="default_gravel_footstep", gain=1.0},
-	}),
-})
-
 minetest.register_node("default:sandstone", {
 	description = "Sandstone",
 	tiles = {"default_sandstone.png"},
@@ -1287,7 +1218,7 @@ minetest.register_node("default:dry_shrub", {
 minetest.register_node("default:grass_1", {
 	description = "Grass",
 	drawtype = "nodebox",
-	tiles = {"default_grass.png"},
+	tiles = {"soil_grass.png"},
 	paramtype = "light",
 	walkable = false,
 	buildable_to = true,
@@ -1310,7 +1241,7 @@ minetest.register_node("default:grass_2", {
 		type = "fixed",
 		fixed = {{-1.5/5, -2.5/5, -1.5/5, -0.5/5, -1.5/5, -0.5/5},{0.5/5, -2.5/5, -1.5/5, 1.5/5, -0.5/5, -0.5/5},{0.5/5, -2.5/5, 0.5/5, 1.5/5, -1.5/5, 1.5/5},{-1.5/5, -2.5/5, 0.5/5, -0.5/5, -0.5/5, 1.5/5},{-2.5/5, -1.5/5, -2.5/5, -1.5/5, -0.5/5, -1.5/5},{1.5/5, -1.5/5, 1.5/5, 2.5/5, -0.5/5, 2.5/5},}
 	},
-	tiles = {"default_grass.png"},
+	tiles = {"soil_grass.png"},
 	paramtype = "light",
 	walkable = false,
 	buildable_to = true,
@@ -1329,7 +1260,7 @@ minetest.register_node("default:grass_3", {
 		type = "fixed",
 		fixed = {{-1.5/5, -2.5/5, -1.5/5, -0.5/5, -0.5/5, -0.5/5},{-2.5/5, -0.5/5, -2.5/5, -1.5/5, 0.5/5, -1.5/5},{1.5/5, -0.5/5, 1.5/5, 2.5/5, 0.5/5, 2.5/5},{0.5/5, -2.5/5, 0.5/5, 1.5/5, -0.5/5, 1.5/5},{0.5/5, -2.5/5, -1.5/5, 1.5/5, -0.5/5, -0.5/5},{-1.5/5, -2.5/5, 0.5/5, -0.5/5, -0.5/5, 1.5/5},}
 	},
-	tiles = {"default_grass.png"},
+	tiles = {"soil_grass.png"},
 	paramtype = "light",
 	walkable = false,
 	buildable_to = true,
@@ -1349,7 +1280,7 @@ minetest.register_node("default:grass_4", {
 		type = "fixed",
 		fixed = {{-1.5/5, -2.5/5, -1.5/5, -0.5/5, 0.5/5, -0.5/5},{0.5/5, -2.5/5, -1.5/5, 1.5/5, 0.5/5, -0.5/5},{0.5/5, -2.5/5, 0.5/5, 1.5/5, 0.5/5, 1.5/5},{-1.5/5, -2.5/5, 0.5/5, -0.5/5, 0.5/5, 1.5/5},{-0.5/5, -2.5/5, -0.5/5, 0.5/5, -1.5/5, 0.5/5},}
 	},
-	tiles = {"default_grass.png"},
+	tiles = {"soil_grass.png"},
 	paramtype = "light",
 	walkable = false,
 	buildable_to = true,
@@ -1414,8 +1345,8 @@ minetest.register_node("default:snow", {
 	}),
 	on_construct = function(pos)
 		pos.y = pos.y - 1
-		if minetest.get_node(pos).name == "default:dirt_with_grass" then
-			minetest.set_node(pos, {name="default:dirt_with_snow"})
+		if minetest.get_node(pos).name == "soil:dirt_with_grass" then
+			minetest.set_node(pos, {name="soil:dirt_with_snow"})
 		end
 	end,
 })

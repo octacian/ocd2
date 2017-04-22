@@ -48,7 +48,7 @@ minetest.register_abm({
 
 --spawn
 plantslib:register_generate_plant({
-	surface = "default:sand",
+	surface = "soil:sand",
 	seed_diff = 330,
 	min_elevation = -1,
 	max_elevation = 5,
@@ -65,5 +65,3 @@ plantslib:register_generate_plant({
 },
   "abstract_trees.grow_palmtree"
 )
-
-

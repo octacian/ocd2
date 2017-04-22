@@ -410,7 +410,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = 'default:sand 4',
+	output = 'soil:sand 4',
 	recipe = {
 		{'default:sandstone'},
 	}

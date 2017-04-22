@@ -219,13 +219,13 @@ function plantslib:spawn_on_surfaces(sd,sp,sr,sc,ss,sa)
 		chance = biome.spawn_chance,
 		neighbors = biome.neighbors,
 		action = function(pos, node, active_object_count, active_object_count_wider)
-			local p_top = { x = pos.x, y = pos.y + 1, z = pos.z }	
+			local p_top = { x = pos.x, y = pos.y + 1, z = pos.z }
 			local n_top = minetest.env:get_node(p_top)
 			local perlin1 = minetest.env:get_perlin(biome.seed_diff, perlin_octaves, perlin_persistence, perlin_scale)
 			local noise1 = perlin1:get2d({x=p_top.x, y=p_top.z})
 			local noise2 = plantslib.perlin_temperature:get2d({x=p_top.x, y=p_top.z})
 			local noise3 = plantslib.perlin_humidity:get2d({x=p_top.x+150, y=p_top.z+50})
-			if noise1 > biome.plantlife_limit 
+			if noise1 > biome.plantlife_limit
 			  and noise2 <= biome.temp_min
 			  and noise2 >= biome.temp_max
 			  and noise3 <= biome.humidity_min
@@ -250,7 +250,7 @@ function plantslib:spawn_on_surfaces(sd,sp,sr,sc,ss,sa)
 					else
 						local currentsurface = minetest.env:get_node(pos).name
 						if currentsurface ~= "default:water_source"
-						  or (currentsurface == "default:water_source" and table.getn(minetest.env:find_nodes_in_area({x=pos.x, y=pos.y-biome.depth_max-1, z=pos.z}, {x=pos.x, y=pos.y, z=pos.z}, {"default:dirt", "default:dirt_with_grass", "default:sand"})) > 0 )
+						  or (currentsurface == "default:water_source" and table.getn(minetest.env:find_nodes_in_area({x=pos.x, y=pos.y-biome.depth_max-1, z=pos.z}, {x=pos.x, y=pos.y, z=pos.z}, {"soil:dirt", "soil:dirt_with_grass", "soil:sand"})) > 0 )
 						  then
 							local rnd = math.random(1, biome.spawn_plants_count)
 							local plant_to_spawn = biome.spawn_plants[rnd]
@@ -269,13 +269,13 @@ function plantslib:spawn_on_surfaces(sd,sp,sr,sc,ss,sa)
 									minetest.env:add_node(p_top, { name = plant_to_spawn, param2 = fdir })
 								end
 							elseif biome.spawn_replace_node then
-						
+
 								plantslib:dbg("Spawn: "..plant_to_spawn.." to replace "..minetest.env:get_node(pos).name.." at ("..dump(pos)..")")
 								minetest.env:add_node(pos, { name = plant_to_spawn, param2 = fdir })
 
 							elseif biome.spawn_on_side then
 								local onside = plantslib:find_open_side(pos)
-								if onside then 
+								if onside then
 									plantslib:dbg("Spawn: "..plant_to_spawn.." at side of ("..dump(pos).."), facedir "..onside.facedir.."")
 									minetest.env:add_node(onside.newpos, { name = plant_to_spawn, param2 = onside.facedir })
 								end
@@ -300,8 +300,8 @@ function plantslib:grow_plants(opts)
 	local options = opts
 
 	options.height_limit = options.height_limit or 5
-	options.ground_nodes = options.ground_nodes or { "default:dirt_with_grass" }
-	options.grow_nodes = options.grow_nodes or { "default:dirt_with_grass" }
+	options.ground_nodes = options.ground_nodes or { "soil:dirt_with_grass" }
+	options.grow_nodes = options.grow_nodes or { "soil:dirt_with_grass" }
 	options.seed_diff = options.seed_diff or 0
 
 	plantslib:dbg("Registered growing ABM:")

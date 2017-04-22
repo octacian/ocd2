@@ -77,7 +77,7 @@ plantslib:spawn_on_surfaces({
 	spawn_plants = {"junglegrass:shortest"},
 	avoid_radius = 4,
 	spawn_chance = SPAWN_CHANCE,
-	spawn_surfaces = {"default:dirt_with_grass", "default:cactus", "default:papyrus"},
+	spawn_surfaces = {"soil:dirt_with_grass", "default:cactus", "default:papyrus"},
 	avoid_nodes = {"group:junglegrass", "default:junglegrass", "default:dry_shrub"},
 	seed_diff = junglegrass_seed_diff,
 	light_min = 5
@@ -88,7 +88,7 @@ plantslib:spawn_on_surfaces({
 	spawn_plants = {"junglegrass:shortest"},
 	avoid_radius = 4,
 	spawn_chance = SPAWN_CHANCE*2,
-	spawn_surfaces = {"default:sand"},
+	spawn_surfaces = {"soil:sand"},
 	avoid_nodes = {"group:junglegrass", "default:junglegrass", "default:dry_shrub"},
 	seed_diff = junglegrass_seed_diff,
 	light_min = 5
@@ -112,7 +112,7 @@ for i in ipairs(grasses_list) do
 		grow_plant = grasses_list[i][1],
 		grow_result = grasses_list[i][2],
 		dry_early_node = "default:desert_sand",
-		grow_nodes = {"default:dirt_with_grass", "default:sand", "default:desert_sand"}
+		grow_nodes = {"soil:dirt_with_grass", "soil:sand", "default:desert_sand"}
 	})
 end
 

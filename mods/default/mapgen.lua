@@ -13,14 +13,14 @@ minetest.register_alias("mapgen_jungleleaves", "default:jungleleaves")
 minetest.register_alias("mapgen_apple", "default:apple")
 minetest.register_alias("mapgen_water_source", "default:water_source")
 minetest.register_alias("mapgen_river_water_source", "default:river_water_source")
-minetest.register_alias("mapgen_dirt", "default:dirt")
-minetest.register_alias("mapgen_sand", "default:sand")
-minetest.register_alias("mapgen_gravel", "default:gravel")
+minetest.register_alias("mapgen_dirt", "soil:dirt")
+minetest.register_alias("mapgen_sand", "soil:sand")
+minetest.register_alias("mapgen_gravel", "soil:gravel")
 minetest.register_alias("mapgen_clay", "default:clay")
 minetest.register_alias("mapgen_lava_source", "default:lava_source")
 minetest.register_alias("mapgen_cobble", "default:cobble")
 minetest.register_alias("mapgen_mossycobble", "default:mossycobble")
-minetest.register_alias("mapgen_dirt_with_grass", "default:dirt_with_grass")
+minetest.register_alias("mapgen_dirt_with_grass", "soil:dirt_with_grass")
 minetest.register_alias("mapgen_junglegrass", "default:junglegrass")
 minetest.register_alias("mapgen_stone_with_coal", "default:stone_with_coal")
 minetest.register_alias("mapgen_stone_with_iron", "default:stone_with_iron")
@@ -236,7 +236,7 @@ if minetest.setting_get("mg_name") == "indev" then
 
 	minetest.register_ore({
 		ore_type       = "scatter",
-		ore            = "default:sand",
+		ore            = "soil:sand",
 		wherein        = "default:stone",
 		clust_scarcity = 20*20*20,
 		clust_num_ores = 5*5*3,
@@ -274,7 +274,7 @@ end
 minetest.register_ore({
 	ore_type       = "scatter",
 	ore            = "default:clay",
-	wherein        = "default:sand",
+	wherein        = "soil:sand",
 	clust_scarcity = 15*15*15,
 	clust_num_ores = 64,
 	clust_size     = 5,
@@ -370,7 +370,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			for i=0,papyrus_amount do
 				local x = pr:next(x0, x1)
 				local z = pr:next(z0, z1)
-				if minetest.get_node({x=x,y=1,z=z}).name == "default:dirt_with_grass" and
+				if minetest.get_node({x=x,y=1,z=z}).name == "soil:dirt_with_grass" and
 						minetest.find_node_near({x=x,y=1,z=z}, 1, "default:water_source") then
 					default.make_papyrus({x=x,y=2,z=z}, pr:next(2, 4))
 				end
@@ -449,7 +449,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							minetest.set_node(p,{name="default:dry_shrub"})
 
 						-- If dirt with grass, add grass
-						elseif nn == "default:dirt_with_grass" then
+						elseif nn == "soil:dirt_with_grass" then
 							minetest.set_node(p,{name="default:grass_"..pr:next(1, 5)})
 						end
 					end
@@ -473,9 +473,9 @@ local mg_name = minetest.get_mapgen_setting("mg_name")
 if mg_name == "v7" then
 	minetest.register_biome({
 		name = "default:grassland",
-		node_top = "default:dirt_with_grass",
+		node_top = "soil:dirt_with_grass",
 		depth_top = 1,
-		node_filler = "default:dirt",
+		node_filler = "soil:dirt",
 		depth_filler = 1,
 		y_min = 5,
 		y_max = 31000,
@@ -485,9 +485,9 @@ if mg_name == "v7" then
 
 	minetest.register_biome({
 		name = "default:grassland_ocean",
-		node_top = "default:sand",
+		node_top = "soil:sand",
 		depth_top = 1,
-		node_filler = "default:sand",
+		node_filler = "soil:sand",
 		depth_filler = 2,
 		y_min = -31000,
 		y_max = 4,

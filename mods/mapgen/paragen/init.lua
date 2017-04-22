@@ -30,39 +30,39 @@ local PROG = true
 -- 3D Perlin1 for terrain
 local perl1 = {
 	SEED1 = 5829058,
-	OCTA1 = 6, -- 
-	SCAL1 = 256, -- 
+	OCTA1 = 6, --
+	SCAL1 = 256, --
 }
 
 -- 2D Perlin2 for alt terrain
 local perl2 = {
 	SEED2 = 76906,
-	OCTA2 = 6, -- 
-	SCAL2 = 207, -- 
+	OCTA2 = 6, --
+	SCAL2 = 207, --
 }
 
 -- 3D Perlin3 for terrain select
 local perl3 = {
 	SEED3 = 848,
-	OCTA3 = 5, -- 
-	PERS3 = 0.5, -- 
-	SCAL3 = 256, -- 
+	OCTA3 = 5, --
+	PERS3 = 0.5, --
+	SCAL3 = 256, --
 }
 
 -- 3D Perlin4 for fissures and caves
 local perl4 = {
 	SEED4 = 98275470284,
-	OCTA4 = 6, -- 
-	PERS4 = 0.5, -- 
-	SCAL4 = 207, -- 
+	OCTA4 = 6, --
+	PERS4 = 0.5, --
+	SCAL4 = 207, --
 }
 
 -- 3D Perlin5 for perlin1 perlin2 persistence and sand depth
 local perl5 = {
 	SEED5 = 7028411255342,
-	OCTA5 = 4, -- 
-	PERS5 = 0.5, -- 
-	SCAL5 = 414, -- 
+	OCTA5 = 4, --
+	PERS5 = 0.5, --
+	SCAL5 = 414, --
 }
 
 -- Nodes
@@ -142,11 +142,11 @@ if ONGEN then
 								or (noiseoff >= 0.19 and noiseoff < 0.23)
 								or (noiseoff >= 0.32 and noiseoff < 0.37)
 								or (noiseoff >= 0.47 and noiseoff < 0.60)
-								or (noiseoff >= 0.69 and noiseoff < 0.73) 
+								or (noiseoff >= 0.69 and noiseoff < 0.73)
 								or noiseoff >= 0.90 then
 									env:add_node({x=x,y=y,z=z},{name="paragen:redstone"})
 								else
-									env:add_node({x=x,y=y,z=z},{name="default:sandstone"})
+									env:add_node({x=x,y=y,z=z},{name="soil:sandstone"})
 								end
 							end
 						end

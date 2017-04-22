@@ -127,9 +127,9 @@ minetest.register_node("firestone:smoke", {
   end
 })
 -- original code from BlockMen
-minetest.register_node(":default:gravel", {
+minetest.register_node(":soil:gravel", {
   description = "Gravel",
-  tiles = {"default_gravel.png"},
+  tiles = {"soil_gravel.png"},
   is_ground_content = true,
   groups = {crumbly=2, falling_node=1},
   drop = {
@@ -140,12 +140,12 @@ minetest.register_node(":default:gravel", {
         rarity = 10,
       },
       {
-        items = {'default:gravel'},
+        items = {'soil:gravel'},
       }
     }
   },
   sounds = default.node_sound_dirt_defaults({
-    footstep = {name="default_gravel_footstep", gain=0.45},
+    footstep = {name="soil_gravel_footstep", gain=0.45},
   }),
 })
 minetest.register_craftitem("firestone:flintstone", {

@@ -45,7 +45,7 @@
     local floor_pos = { x=spawn_pos.x , y=spawn_pos.y-1 , z=spawn_pos.z }
     local spawn = minetest.get_node(spawn_pos).name
     local floor = minetest.get_node(floor_pos).name
-    if floor == 'default:dirt_with_grass' and spawn == 'air' then
+    if floor == 'soil:dirt_with_grass' and spawn == 'air' then
       minetest.set_node(spawn_pos, {name=flower})
     end
   end

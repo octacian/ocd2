@@ -3,14 +3,14 @@ local function add_tree_branch(pos)
   local leave = "trees:leaves_"..leaves[math.random(1,3)]
   minetest.env:add_node(pos, {name="default:jungletree"})
   --height
-  
+
   local height = 2 + math.random(3)
-  
+
   for y = height , 0, -1 do
     if y <= 0 then return end
     for x = y, -y, -1 do
       for z = y, -y, -1  do
-        if math.abs(x)+math.abs(z) <= 4 then 
+        if math.abs(x)+math.abs(z) <= 4 then
           local p = {x=pos.x+x, y=pos.y+height-1-y, z=pos.z+z}
           local n = minetest.env:get_node(p)
           if (n.name=="air") then
@@ -126,7 +126,7 @@ minetest.register_abm({
 
 --spawn
 plantslib:register_generate_plant({
-    surface = "default:dirt_with_grass",
+    surface = "soil:dirt_with_grass",
     max_count = 30,
     avoid_nodes = {"group:tree"},
     avoid_radius = 2,

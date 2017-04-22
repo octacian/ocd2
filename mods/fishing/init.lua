@@ -63,9 +63,9 @@ minetest.register_tool("fishing:pole", {
 						gain = 0.5,
 					})
 					minetest.env:add_entity({interval = 1,x=pt.under.x, y=pt.under.y+1, z=pt.under.z}, "fishing:bobber_entity")
-					
+
 					if WEAR_OUT == true then
-						return rod_wear(itemstack, user, pointed_thing, 30)	
+						return rod_wear(itemstack, user, pointed_thing, 30)
 					else
 						return {name="fishing:pole", count=1, wear=0, metadata=""}
 					end
@@ -195,30 +195,6 @@ end
 -----------------------------------------------------------------------------------------------
 -- GETTING WORMS
 -----------------------------------------------------------------------------------------------
--- get worms from digging in dirt:
-if NEW_WORM_SOURCE == false then
-
-minetest.register_node(":default:dirt", {
-	description = "Dirt",
-	tiles = {"default_dirt.png"},
-	is_ground_content = true,
-	groups = {crumbly=3},
-	sounds = default.node_sound_dirt_defaults(),
- 	after_dig_node = function (pos, oldnode, oldmetadata, digger)
- 		if math.random(1, 100) < WORM_CHANCE then
-			local tool_in_use = digger:get_wielded_item():get_name()
-			if tool_in_use == "" or tool_in_use == "default:dirt" then
-				minetest.env:add_entity({x = pos.x, y = pos.y+0.4, z = pos.z}, "fishing:bait_worm_entity")
-				--local inv = digger:get_inventory()
- 				--if inv:room_for_item("main", {name="fishing:bait_worm", count=1, wear=0, metadata=""}) then
- 					--inv:add_item("main", {name="fishing:bait_worm", count=1, wear=0, metadata=""})
- 				--end
- 			end
- 		end
- 	end,
-})
-
-else
 -- get worms from digging with hoes:
 
 -- turns nodes with group soil=1 into soil
@@ -231,11 +207,11 @@ local function hoe_on_use(itemstack, user, pointed_thing, uses)
 	if pt.type ~= "node" then
 		return
 	end
-	
+
 	local under = minetest.get_node(pt.under)
 	local p = {x=pt.under.x, y=pt.under.y+1, z=pt.under.z}
 	local above = minetest.get_node(p)
-	
+
 	-- return if any of the nodes is not registered
 	if not minetest.registered_nodes[under.name] then
 		return
@@ -243,17 +219,17 @@ local function hoe_on_use(itemstack, user, pointed_thing, uses)
 	if not minetest.registered_nodes[above.name] then
 		return
 	end
-	
+
 	-- check if the node above the pointed thing is air
 	if above.name ~= "air" then
 		return
 	end
-	
+
 	-- check if pointing at dirt
 	if minetest.get_item_group(under.name, "soil") ~= 1 then
 		return
 	end
-	
+
 	-- turn the node into soil, play sound, get worm and wear out item
 	minetest.set_node(pt.under, {name="farming:soil"})
 	minetest.sound_play("default_dig_crumbly", {
@@ -301,7 +277,6 @@ minetest.register_tool(":farming:hoe_bronze", {
 	end,
 })
 
-end
 -----------------------------------------------------------------------------------------------
 print("[Mod] "..title.." ["..version.."] ["..mname.."] Loaded...")
 -----------------------------------------------------------------------------------------------

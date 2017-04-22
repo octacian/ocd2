@@ -5,11 +5,11 @@ local function create_soil(pos, inv, p)
 	local node = minetest.env:get_node(pos)
 	local name = node.name
 	local above = minetest.env:get_node({x=pos.x, y=pos.y+1, z=pos.z})
-	if name == "default:dirt" or name == "default:dirt_with_grass" then
+	if name == "soil:dirt" or name == "soil:dirt_with_grass" then
 		if above.name == "air" then
 			node.name = "farming:soil"
 			minetest.env:set_node(pos, node)
-			if inv and p and name == "default:dirt_with_grass" then
+			if inv and p and name == "soil:dirt_with_grass" then
 				for name,rarity in pairs(farming.seeds) do
 					if math.random(1, rarity-p) == 1 then
 						inv:add_item("main", ItemStack(name))

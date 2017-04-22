@@ -18,15 +18,15 @@ local function add_leaves(pos, leave)
 end
 
 abstract_trees.grow_mangrovetree = function(pos)
-  local size = 5+math.random(11)  
+  local size = 5+math.random(11)
   local trunk_node = "trees:tree_mangrove"
   local leaves_node = "trees:leaves_mangrove"
-  
+
   local top = {x=pos.x, y=pos.y+size, z=pos.z}
-  
+
   add_leaves({x=top.x+math.ceil(math.random(3))-2, y=top.y, z=top.z+math.ceil(math.random(3))-2},leaves_node)
     add_leaves({x=top.x+math.ceil(math.random(3))-2, y=top.y, z=top.z+math.ceil(math.random(3))-2},leaves_node)
-  
+
   for i=1, size, 1 do
     if math.ceil(math.random(2)) == 1 then
       local dir = {
@@ -110,13 +110,13 @@ minetest.register_abm({
 
 --spawning
 plantslib:register_generate_plant({
-    surface = "default:dirt",
+    surface = "soil:dirt",
     max_count = 30,
     near_nodes = {"default:water_source"},
     near_nodes_size = 1,
     near_nodes_vertical = 3,
     near_nodes_count = 6,
-    avoid_nodes = {"group:tree", "default:sand"},
+    avoid_nodes = {"group:tree", "soil:sand"},
     avoid_radius = 3,
     rarity = 50,
     seed_diff = 666,

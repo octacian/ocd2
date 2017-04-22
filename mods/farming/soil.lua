@@ -1,6 +1,6 @@
 minetest.register_node("farming:soil", {
-	tiles = {"farming_soil.png", "default_dirt.png", "default_dirt.png", "default_dirt.png", "default_dirt.png", "default_dirt.png"},
-	drop = "default:dirt",
+	tiles = {"farming_soil.png", "soil_dirt.png", "soil_dirt.png", "soil_dirt.png", "soil_dirt.png", "soil_dirt.png"},
+	drop = "soil:dirt",
 	groups = {crumbly=3, not_in_creative_inventory=1},
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.4},
@@ -9,7 +9,7 @@ minetest.register_node("farming:soil", {
 
 minetest.register_node("farming:soil_wet", {
 	tiles = {"farming_soil_wet.png", "farming_soil_wet_side.png", "farming_soil_wet_side.png", "farming_soil_wet_side.png", "farming_soil_wet_side.png", "farming_soil_wet_side.png"},
-	drop = "default:dirt",
+	drop = "soil:dirt",
 	groups = {crumbly=3, not_in_creative_inventory=1},
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.4},
@@ -38,7 +38,7 @@ minetest.register_abm({
 		pos.y = pos.y+1
 		if #(minetest.env:get_objects_inside_radius(pos, 0.8)) > 0 then
 			pos.y = pos.y-1
-			node.name = "default:dirt"
+			node.name = "soil:dirt"
 			minetest.env:set_node(pos, node)
 		end
 	end,
