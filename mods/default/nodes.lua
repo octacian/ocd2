@@ -492,6 +492,68 @@ minetest.register_node("default:water_source", {
 	groups = {water=3, liquid=3, puts_out_fire=1},
 })
 
+minetest.register_node("default:river_water_flowing", {
+	description = "Flowing River Water",
+	inventory_image = minetest.inventorycube("default_river_water.png"),
+	drawtype = "flowingliquid",
+	tiles = {"default_river_water.png"},
+	special_tiles = {
+		{
+			image="default_river_water.png",
+			backface_culling=false,
+			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=0.8}
+		},
+		{
+			image="default_river_water.png",
+			backface_culling=true,
+			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=0.8}
+		},
+	},
+	alpha = WATER_ALPHA,
+	paramtype = "light",
+	walkable = false,
+	pointable = false,
+	diggable = false,
+	buildable_to = true,
+	drop = "",
+	liquidtype = "flowing",
+	liquid_alternative_flowing = "default:river_water_flowing",
+	liquid_alternative_source = "default:river_water_source",
+	liquid_viscosity = WATER_VISC,
+	post_effect_color = {a=64, r=100, g=100, b=200},
+	groups = {water=3, liquid=3, puts_out_fire=1, not_in_creative_inventory=1},
+})
+
+minetest.register_node("default:river_water_source", {
+	description = "River Water Source",
+	inventory_image = minetest.inventorycube("default_river_water.png"),
+	drawtype = "liquid",
+	tiles = {
+		{name="default_river_water.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=2.0}}
+	},
+	special_tiles = {
+		-- New-style water source material (mostly unused)
+		{
+			name="default_river_water.png",
+			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=2.0},
+			backface_culling = false,
+		}
+	},
+	alpha = WATER_ALPHA,
+	paramtype = "light",
+	walkable = false,
+	pointable = false,
+	diggable = false,
+	buildable_to = true,
+	drop = "",
+	liquidtype = "source",
+	liquid_alternative_flowing = "default:river_water_flowing",
+	liquid_alternative_source = "default:river_water_source",
+	liquid_viscosity = WATER_VISC,
+	post_effect_color = {a=64, r=100, g=100, b=200},
+	groups = {water=3, liquid=3, puts_out_fire=1},
+})
+
 minetest.register_node("default:lava_flowing", {
 	description = "Flowing Lava",
 	inventory_image = minetest.inventorycube("default_lava.png"),
