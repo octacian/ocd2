@@ -108,6 +108,7 @@ function minetest.handle_node_drops(pos, drops, digger)
 	end
 
 	local inv  = digger:get_inventory()
+	local mode = ocd.get_gamemode_def(ocd.get_gamemode(digger))
 
 	for _, item in ipairs(drops) do
 		local count, name
@@ -119,8 +120,15 @@ function minetest.handle_node_drops(pos, drops, digger)
 			name = item:get_name()
 		end
 
-		for i=1,count do
-			minetest.add_item(pos, name)
+		if mode.item_drops == "auto" then
+			item = ItemStack(item):get_name()
+			if not inv:contains_item("main", item) then
+				inv:add_item("main", item)
+			end
+		else
+			for i=1,count do
+				minetest.add_item(pos, name)
+			end
 		end
 	end
 end
