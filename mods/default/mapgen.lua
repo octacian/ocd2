@@ -12,6 +12,7 @@ minetest.register_alias("mapgen_jungletree", "default:jungletree")
 minetest.register_alias("mapgen_jungleleaves", "default:jungleleaves")
 minetest.register_alias("mapgen_apple", "default:apple")
 minetest.register_alias("mapgen_water_source", "default:water_source")
+minetest.register_alias("mapgen_river_water_source", "default:river_water_source")
 minetest.register_alias("mapgen_dirt", "default:dirt")
 minetest.register_alias("mapgen_sand", "default:sand")
 minetest.register_alias("mapgen_gravel", "default:gravel")
@@ -459,3 +460,38 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		end
 	end
 end)
+
+---
+--- Biomes
+---
+
+minetest.clear_registered_biomes()
+minetest.clear_registered_ores()
+minetest.clear_registered_decorations()
+
+local mg_name = minetest.get_mapgen_setting("mg_name")
+if mg_name == "v7" then
+	minetest.register_biome({
+		name = "default:grassland",
+		node_top = "default:dirt_with_grass",
+		depth_top = 1,
+		node_filler = "default:dirt",
+		depth_filler = 1,
+		y_min = 5,
+		y_max = 31000,
+		heat_point = 50,
+		humidity_point = 50,
+	})
+
+	minetest.register_biome({
+		name = "default:grassland_ocean",
+		node_top = "default:sand",
+		depth_top = 1,
+		node_filler = "default:sand",
+		depth_filler = 2,
+		y_min = -31000,
+		y_max = 4,
+		heat_point = 50,
+		humidity_point = 50,
+	})
+end
