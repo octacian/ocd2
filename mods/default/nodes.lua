@@ -391,6 +391,7 @@ minetest.register_node("default:water_flowing", {
 	liquid_viscosity = WATER_VISC,
 	post_effect_color = {a=64, r=100, g=100, b=200},
 	groups = {water=3, liquid=3, puts_out_fire=1, not_in_creative_inventory=1},
+	drowning = 1,
 })
 
 minetest.register_node("default:water_source", {
@@ -421,6 +422,7 @@ minetest.register_node("default:water_source", {
 	liquid_viscosity = WATER_VISC,
 	post_effect_color = {a=64, r=100, g=100, b=200},
 	groups = {water=3, liquid=3, puts_out_fire=1},
+	drowning = 1,
 })
 
 minetest.register_node("default:river_water_flowing", {
@@ -453,6 +455,7 @@ minetest.register_node("default:river_water_flowing", {
 	liquid_viscosity = WATER_VISC,
 	post_effect_color = {a=64, r=100, g=100, b=200},
 	groups = {water=3, liquid=3, puts_out_fire=1, not_in_creative_inventory=1},
+	drowning = 1,
 })
 
 minetest.register_node("default:river_water_source", {
@@ -483,6 +486,7 @@ minetest.register_node("default:river_water_source", {
 	liquid_viscosity = WATER_VISC,
 	post_effect_color = {a=64, r=100, g=100, b=200},
 	groups = {water=3, liquid=3, puts_out_fire=1},
+	drowning = 1,
 })
 
 minetest.register_node("default:lava_flowing", {
@@ -518,6 +522,7 @@ minetest.register_node("default:lava_flowing", {
 	damage_per_second = 4*2,
 	post_effect_color = {a=192, r=255, g=64, b=0},
 	groups = {lava=3, liquid=2, hot=3, igniter=1, not_in_creative_inventory=1},
+	drowning = 1,
 })
 
 minetest.register_node("default:lava_source", {
@@ -550,6 +555,7 @@ minetest.register_node("default:lava_source", {
 	damage_per_second = 4*2,
 	post_effect_color = {a=192, r=255, g=64, b=0},
 	groups = {lava=3, liquid=2, hot=3, igniter=1},
+	drowning = 1,
 })
 
 torch_box = {
