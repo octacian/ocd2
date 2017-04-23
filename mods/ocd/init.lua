@@ -19,6 +19,8 @@ dofile(modpath.."/wield.lua")
 dofile(modpath.."/particles.lua")
 -- Load chatcommands
 dofile(modpath.."/chatcommands.lua")
+-- Load HUD
+dofile(modpath.."/hud.lua")
 
 minetest.register_node("ocd:stone_in_cobble", {
 	description = "Stone in cobble",

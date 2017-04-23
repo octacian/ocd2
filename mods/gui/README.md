@@ -15,8 +15,6 @@ celeron55, Perttu Ahola <celeron55@gmail.com> (CC BY-SA 3.0)
   gui_arrow_bg.png
 
 kaadmy (CC BY-SA 4.0):
-  heart.png
-  bubble.png
   gui_null.png
   gui_tab_active.png (\*)
   gui_tab_inactive.png (\*)
