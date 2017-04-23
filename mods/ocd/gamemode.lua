@@ -47,6 +47,11 @@ function ocd.set_gamemode(player, gamemode)
 
     local gm = gamemodes[gamemode]
 
+    -- Update formspec
+    if gm.tab_group then
+      gui.set_tab_group(player, gm.tab_group)
+    end
+
     -- Update hand
     if gm.hand then
       player:get_inventory():set_stack("hand", 1, gm.hand)
